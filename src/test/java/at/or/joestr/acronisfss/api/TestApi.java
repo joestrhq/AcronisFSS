@@ -7,8 +7,8 @@ package at.or.joestr.acronisfss.api;
 
 /**
  *
- * @author Joel
+ * @author joestr
  */
-public class Main {
+public class TestApi {
 	
 }

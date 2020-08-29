@@ -7,7 +7,7 @@ package at.or.joestr.acronisfss.api.endpoints;
 
 import java.util.List;
 import java.util.UUID;
-import at.or.joestr.acronisfss.api.objects.AuditLogEntry;
+import at.or.joestr.acronisfss.api.structures.AuditLogEntry;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;

@@ -5,7 +5,7 @@
  */
 package at.or.joestr.acronisfss.api.endpoints;
 
-import at.or.joestr.acronisfss.api.objects.Device;
+import at.or.joestr.acronisfss.api.structures.Device;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;

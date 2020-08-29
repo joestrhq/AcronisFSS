@@ -5,7 +5,7 @@
  */
 package at.or.joestr.acronisfss.api;
 
-import at.or.joestr.acronisfss.api.objects.AuditLogEntry;
+import at.or.joestr.acronisfss.api.structures.AuditLogEntry;
 import java.net.URI;
 import java.util.List;
 
@@ -15,8 +15,8 @@ import java.util.List;
  */
 public class Api {
 	
-	private URI apiUri;
-	private URI authUri;
+	private final URI apiUri;
+	private final URI authUri;
 	
 	public Api(URI apiUrl, URI authUrl) {
 		this.apiUri = apiUrl;

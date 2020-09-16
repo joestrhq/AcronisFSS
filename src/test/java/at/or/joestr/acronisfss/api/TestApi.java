@@ -8,6 +8,7 @@ package at.or.joestr.acronisfss.api;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -15,14 +16,23 @@ import org.junit.Test;
  * @author joestr
  */
 public class TestApi {
+
+	Api acronisApi;
+	
+	@Before
+	public void init() throws URISyntaxException {
+		this.acronisApi = new Api(
+			new URI("https://dev-cloud.acronis.com/fc/api/1"),
+			new URI("https://dev-cloud.acronis.com/api/2/idp"),
+			"username",
+			"password"
+		);
+	}
 	
 	@Test
-	public void test1() throws URISyntaxException {
-		Api acronisApi = new Api(
-			new URI("https://dev-cloud.acronis.com/fc/api/1"),
-			new URI("https://dev-cloud.acronis.com/api/2/idp")
-		);
+	public void authorize() {
+		this.acronisApi.authorize();
 		
-		Assert.assertEquals(acronisApi.getAuditLog(), null);
+		Assert.assertNotEquals(null, this.acronisApi.getToken());
 	}
 }

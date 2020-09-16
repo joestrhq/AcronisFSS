@@ -24,7 +24,7 @@ import javax.ws.rs.core.UriBuilder;
  */
 public class AuditLogEndpoint {
 	
-	private static String ENDPOINT_PATH = "/audit_log";
+	private static final String ENDPOINT_PATH = "/audit_log";
 	
 	private AuditLogEndpoint() {
     throw new IllegalStateException("Utility class");

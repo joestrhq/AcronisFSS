@@ -31,8 +31,12 @@ import javax.ws.rs.core.UriBuilder;
 public class AuthorizationEndpoint {
 
 	public static String ENDPOINT_PATH = "/token";
+	
+	public AuthorizationEndpoint() {
+		throw new IllegalStateException("Utility class");
+	}
 
-	public OAuth2Token getToken(URI authUri, String grantType, String username, String password) throws IOException, InterruptedException {
+	public static OAuth2Token getToken(URI authUri, String grantType, String username, String password) throws IOException, InterruptedException {
 
 		OAuth2Token result;
 
@@ -50,6 +54,58 @@ public class AuthorizationEndpoint {
 					.append("&")
 					.append("password=")
 					.append(password)
+					.toString(),
+				StandardCharsets.UTF_8
+			))
+			.uri(requestUri.build())
+			.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+			.build();
+
+		HttpResponse<String> response
+			= HttpClient
+				.newBuilder()
+				.build()
+				.send(req, HttpResponse.BodyHandlers.ofString());
+		
+		if (response.statusCode() == 401) {
+			Error error = new Gson().fromJson(
+				JsonParser.parseString(response.body()).getAsJsonObject().get("error").getAsJsonObject(),
+				Error.class
+			);
+			
+			throw new FilesProtectApiException(error.toString());
+		}
+		
+		JsonObject jsonResponse = JsonParser.parseString(response.body()).getAsJsonObject();
+		
+		result = new OAuth2Token(
+			LocalDateTime.ofInstant(Instant.ofEpochSecond(
+				jsonResponse.get("expires_on").getAsLong()),
+				TimeZone.getTimeZone("UTC").toZoneId()
+			),
+			jsonResponse.get("token_type").getAsString(),
+			jsonResponse.get("access_token").getAsString(),
+			jsonResponse.get("id_token").getAsString()
+		);
+
+		return result;
+	}
+	
+	public static OAuth2Token getToken(URI authUri, String grantType, OAuth2Token token) throws IOException, InterruptedException {
+
+		OAuth2Token result;
+
+		UriBuilder requestUri = UriBuilder.fromUri(authUri);
+		requestUri.path(ENDPOINT_PATH);
+
+		HttpRequest req = HttpRequest.newBuilder()
+			.POST(HttpRequest.BodyPublishers.ofString(
+				new StringBuilder("")
+					.append("grant_type=")
+					.append(grantType)
+					.append("&")
+					.append("refrsh_token=")
+					.append(token.getIdToken())
 					.toString(),
 				StandardCharsets.UTF_8
 			))

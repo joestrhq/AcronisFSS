@@ -10,6 +10,7 @@ import at.or.joestr.acronisfss.api.endpoints.AuthorizationEndpoint;
 import at.or.joestr.acronisfss.api.structures.AuditLogEntry;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,7 +62,7 @@ public class Api {
 	public void authorize() {
 		try {
 			this.token = AuthorizationEndpoint.getToken(this.authUri, "password", this.username, this.password);
-		} catch (IOException | InterruptedException ex) {
+		} catch (IOException | InterruptedException | URISyntaxException ex) {
 			LOGGER.log(Level.SEVERE, "Error whilst authorizing client.", ex);
 			Thread.currentThread().interrupt();
 		}
@@ -69,8 +70,8 @@ public class Api {
 	
 	public void reauthorize() {
 		try {
-			this.token = AuthorizationEndpoint.getToken(authUri, "refrsh_token", this.token);
-		} catch (IOException | InterruptedException ex) {
+			this.token = AuthorizationEndpoint.getToken(authUri, "refresh_token", this.token);
+		} catch (IOException | InterruptedException | URISyntaxException ex) {
 			LOGGER.log(Level.SEVERE, "Error whilst re-authorizing client.", ex);
 			Thread.currentThread().interrupt();
 		}

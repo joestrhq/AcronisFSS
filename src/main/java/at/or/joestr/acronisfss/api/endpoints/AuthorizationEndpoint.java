@@ -13,6 +13,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -20,9 +22,8 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.TimeZone;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriBuilder;
+import org.apache.http.HttpHeaders;
+import org.apache.http.entity.ContentType;
 
 /**
  *
@@ -32,33 +33,27 @@ public class AuthorizationEndpoint {
 
 	public static String ENDPOINT_PATH = "/token";
 	
-	public AuthorizationEndpoint() {
+	private AuthorizationEndpoint() {
 		throw new IllegalStateException("Utility class");
 	}
 
-	public static OAuth2Token getToken(URI authUri, String grantType, String username, String password) throws IOException, InterruptedException {
+	public static OAuth2Token getToken(URI authUri, String grantType, String username, String password) throws IOException, InterruptedException, URISyntaxException {
 
 		OAuth2Token result;
 
-		UriBuilder requestUri = UriBuilder.fromUri(authUri);
-		requestUri.path(ENDPOINT_PATH);
-
 		HttpRequest req = HttpRequest.newBuilder()
+			.uri(new URI(authUri.toString() + ENDPOINT_PATH))
+			.header(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType())
+			.header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED.getMimeType())
 			.POST(HttpRequest.BodyPublishers.ofString(
 				new StringBuilder("")
-					.append("grant_type=")
-					.append(grantType)
-					.append("&")
-					.append("username=")
-					.append(username)
-					.append("&")
-					.append("password=")
-					.append(password)
+					.append("grant_type=").append(grantType)
+					.append("&").append("username=").append(URLEncoder.encode(username, StandardCharsets.UTF_8))
+					.append("&").append("password=").append(URLEncoder.encode(password, StandardCharsets.UTF_8))
 					.toString(),
-				StandardCharsets.UTF_8
+				
+					StandardCharsets.UTF_8
 			))
-			.uri(requestUri.build())
-			.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
 			.build();
 
 		HttpResponse<String> response
@@ -91,26 +86,21 @@ public class AuthorizationEndpoint {
 		return result;
 	}
 	
-	public static OAuth2Token getToken(URI authUri, String grantType, OAuth2Token token) throws IOException, InterruptedException {
+	public static OAuth2Token getToken(URI authUri, String grantType, OAuth2Token token) throws IOException, InterruptedException, URISyntaxException {
 
 		OAuth2Token result;
 
-		UriBuilder requestUri = UriBuilder.fromUri(authUri);
-		requestUri.path(ENDPOINT_PATH);
-
 		HttpRequest req = HttpRequest.newBuilder()
+			.uri(new URI(authUri.toString() + ENDPOINT_PATH))
+			.header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED.getMimeType())
+			.header(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType())
 			.POST(HttpRequest.BodyPublishers.ofString(
 				new StringBuilder("")
-					.append("grant_type=")
-					.append(grantType)
-					.append("&")
-					.append("refrsh_token=")
-					.append(token.getIdToken())
+					.append("grant_type=").append(grantType)
+					.append("&").append("refresh_token=").append(token.getIdToken())
 					.toString(),
 				StandardCharsets.UTF_8
 			))
-			.uri(requestUri.build())
-			.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
 			.build();
 
 		HttpResponse<String> response

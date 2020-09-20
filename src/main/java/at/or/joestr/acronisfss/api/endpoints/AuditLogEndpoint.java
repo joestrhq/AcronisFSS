@@ -10,13 +10,12 @@ import java.util.UUID;
 import at.or.joestr.acronisfss.api.structures.AuditLogEntry;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriBuilder;
+import org.apache.http.HttpHeaders;
 
 /**
  *
@@ -30,18 +29,14 @@ public class AuditLogEndpoint {
     throw new IllegalStateException("Utility class");
   }
 	
-	public static List<AuditLogEntry> getAuditLogEntries(URI apiUri, String bearerToken, int perPage, int page, UUID tenantId) throws IOException, InterruptedException {
+	public static List<AuditLogEntry> getAuditLogEntries(URI apiUri, String bearerToken, int perPage, int page, UUID tenantId) throws IOException, InterruptedException, URISyntaxException {
 		ArrayList<AuditLogEntry> result = null;
-		
-		UriBuilder requestUri = UriBuilder.fromUri(apiUri);
-		requestUri.path(ENDPOINT_PATH);
-		requestUri.queryParam("", "");
 		
 		HttpRequest req = HttpRequest.newBuilder()
 			.GET()
-			.uri(requestUri.build())
+			.uri(new URI(apiUri.toString() + ENDPOINT_PATH))
 			.header(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken)
-			.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+			.header(HttpHeaders.ACCEPT, "application/json")
 			.build();
 		
 		HttpResponse<String> response = HttpClient

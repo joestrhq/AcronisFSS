@@ -8,41 +8,49 @@ package at.or.joestr.acronisfss.api;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 /**
  *
  * @author joestr
  */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestApi {
 
-	private Api acronisApi = null;
+	private static Api acronisApi = null;
 	
-	@BeforeAll
-	public void test1() {
+	@Test
+	@Order(0)
+	public void init() {
 		try {
-			this.acronisApi = new Api(
+			acronisApi = new Api(
 				new URI("https://dev-cloud.acronis.com/fc/api/1"),
 				new URI("https://dev-cloud.acronis.com/api/2/idp"),
 				System.getProperty("at.or.joestr.acronisfss.api.username"),
 				System.getProperty("at.or.joestr.acronisfss.api.password")
 			);
 		} catch (URISyntaxException ex) {
-			Assertions.assertNotEquals(null, this.acronisApi);
+			
 		}
+		
+		Assertions.assertNotEquals(null, acronisApi);
 	}
 	
 	@Test
-	public void test2() {
-		this.acronisApi.authorize();
-		Assertions.assertNotEquals(null, this.acronisApi.getToken());
+	@Order(10)
+	public void authorize() {
+		acronisApi.authorize();
+		Assertions.assertNotEquals(null, acronisApi.getToken());
 	}
 	
 	@Test
-	public void test3() {
+	@Order(11)
+	public void reauthorize() {
 		// Api#reauthorize() does not work properly
-		//this.acronisApi.reauthorize();
-		Assertions.assertNotEquals(null, this.acronisApi.getToken());
+		//acronisApi.reauthorize();
+		Assertions.assertNotEquals(null, acronisApi.getToken());
 	}
 }

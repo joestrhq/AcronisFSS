@@ -43,14 +43,20 @@ public class TestApi {
 	@Order(10)
 	public void authorize() {
 		acronisApi.authorize();
-		Assertions.assertNotEquals(null, acronisApi.getToken());
+		Assertions.assertNotEquals(null, acronisApi.getToken(), "is token not null");
 	}
 	
 	@Test
 	@Order(11)
+	public void isTokenABearerToken() {
+		Assertions.assertEquals("bearer", acronisApi.getToken().getTokenType(), "is token a bearer token");
+	}
+	
+	@Test
+	@Order(20)
 	public void reauthorize() {
 		// Api#reauthorize() does not work properly
 		//acronisApi.reauthorize();
-		Assertions.assertNotEquals(null, acronisApi.getToken());
+		Assertions.assertNotEquals(null, acronisApi.getToken(), "is token not null");
 	}
 }

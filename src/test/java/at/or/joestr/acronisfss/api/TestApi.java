@@ -5,8 +5,11 @@
  */
 package at.or.joestr.acronisfss.api;
 
+import at.or.joestr.acronisfss.api.filter.AuditLogFilter;
+import at.or.joestr.acronisfss.api.structures.AuditLogEntry;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -27,7 +30,7 @@ public class TestApi {
 	public void init() {
 		try {
 			acronisApi = new Api(
-				new URI("https://dev-cloud.acronis.com/fc/api/1"),
+				new URI("https://dev-cloud.acronis.com/fc/api/v1"),
 				new URI("https://dev-cloud.acronis.com/api/2/idp"),
 				System.getProperty("at.or.joestr.acronisfss.api.username"),
 				System.getProperty("at.or.joestr.acronisfss.api.password")
@@ -53,7 +56,15 @@ public class TestApi {
 	}
 	
 	@Test
-	@Order(20)
+	@Order(12)
+	public void getAuditLog() {
+		ArrayList<AuditLogEntry> entries = (ArrayList) acronisApi.getAuditLog(new AuditLogFilter());
+		
+		Assertions.assertNotEquals(null, entries.get(0));
+	}
+	
+	@Test
+	@Order(90)
 	public void reauthorize() {
 		// Api#reauthorize() does not work properly
 		//acronisApi.reauthorize();

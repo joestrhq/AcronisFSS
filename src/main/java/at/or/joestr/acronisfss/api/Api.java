@@ -6,11 +6,14 @@
 package at.or.joestr.acronisfss.api;
 
 import at.or.joestr.acronisfss.api.classes.OAuth2Token;
+import at.or.joestr.acronisfss.api.endpoints.AuditLogEndpoint;
 import at.or.joestr.acronisfss.api.endpoints.AuthorizationEndpoint;
+import at.or.joestr.acronisfss.api.filter.AuditLogFilter;
 import at.or.joestr.acronisfss.api.structures.AuditLogEntry;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -80,9 +83,17 @@ public class Api {
 	/**
 	 * Gets a list of audit log entries.
 	 * 
+	 * @param auditLogFilter The filter specify the result.
 	 * @return Audit log entries.
 	 */
-	public List<AuditLogEntry> getAuditLog() {
-		return null;
+	public List<AuditLogEntry> getAuditLog(AuditLogFilter auditLogFilter) {
+		try {
+			return AuditLogEndpoint.getAuditLogEntries(apiUri, this.token.getAccessToken(), auditLogFilter);
+		} catch (IOException | InterruptedException | URISyntaxException ex) {
+			LOGGER.log(Level.SEVERE, "Error whilst re-authorizing client.", ex);
+			Thread.currentThread().interrupt();
+		}
+		
+		return new ArrayList<>();
 	}
 }

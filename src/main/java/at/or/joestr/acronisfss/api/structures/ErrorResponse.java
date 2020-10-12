@@ -9,13 +9,13 @@ package at.or.joestr.acronisfss.api.structures;
  *
  * @author Joel
  */
-public class Error {
+public class ErrorResponse {
 	private String domain;
 	private int code;
 	private String message;
 	private String context;
 
-	public Error(String domain, int code, String message, String context) {
+	public ErrorResponse(String domain, int code, String message, String context) {
 		this.domain = domain;
 		this.code = code;
 		this.message = message;

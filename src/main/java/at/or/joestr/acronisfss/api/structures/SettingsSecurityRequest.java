@@ -10,5 +10,5 @@ package at.or.joestr.acronisfss.api.structures;
  * @author Joel
  */
 public class SettingsSecurityRequest {
-	private SecuritySettings securitySettings;
+  private SecuritySettings securitySettings;
 }

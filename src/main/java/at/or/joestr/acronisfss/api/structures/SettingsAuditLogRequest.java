@@ -10,5 +10,5 @@ package at.or.joestr.acronisfss.api.structures;
  * @author Joel
  */
 public class SettingsAuditLogRequest {
-	//private ? audit_log_settings;
+  //private ? audit_log_settings;
 }

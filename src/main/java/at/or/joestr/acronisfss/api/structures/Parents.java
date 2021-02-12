@@ -10,7 +10,7 @@ package at.or.joestr.acronisfss.api.structures;
  * @author Joel
  */
 public class Parents {
-	private NodeName name;
-	private NodeUuid uuid;
-	private boolean root;
+  private NodeName name;
+  private NodeUuid uuid;
+  private boolean root;
 }

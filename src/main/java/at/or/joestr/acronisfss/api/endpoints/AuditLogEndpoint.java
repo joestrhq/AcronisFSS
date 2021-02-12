@@ -34,80 +34,80 @@ import org.apache.http.client.utils.URIBuilder;
  * @author joestr
  */
 public class AuditLogEndpoint {
-	
-	private static final String ENDPOINT_PATH = "/audit_log";
-	
-	private AuditLogEndpoint() {
+
+  private static final String ENDPOINT_PATH = "/audit_log";
+
+  private AuditLogEndpoint() {
     throw new IllegalStateException("Utility class");
   }
-	
-	public static List<AuditLogEntry> getAuditLogEntries(URI apiUri, String bearerToken, AuditLogFilter auditLogFilter) throws IOException, InterruptedException, URISyntaxException {
-		ArrayList<AuditLogEntry> result = null;
-		
-		URIBuilder uri =
-			new URIBuilder(apiUri.toString() + ENDPOINT_PATH)
-			.addParameters(auditLogFilter.build());
-		
-		HttpRequest req = HttpRequest.newBuilder()
-			.GET()
-			.uri(uri.build())
-			.header(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken)
-			.header(HttpHeaders.ACCEPT, "application/json")
-			.build();
-		
-		HttpResponse<String> response = HttpClient
-			.newBuilder()
-			.build()
-			.send(req, HttpResponse.BodyHandlers.ofString());
-		
-		if (response.statusCode() == 403) {
-			ErrorResponse error = new Gson().fromJson(
-				JsonParser.parseString(response.body()).getAsJsonObject().get("error").getAsJsonObject(),
-				ErrorResponse.class
-			);
-			
-			throw new GetAuditLogEntriesListException(error.toString());
-		}
-		
-		JsonArray jsonLogEntries = JsonParser.parseString(response.body()).getAsJsonArray();
-		
-		result = new ArrayList<>();
-		
-		for(JsonElement jsonLogEntry : jsonLogEntries) {
-			JsonObject jsonLogEntryObject = jsonLogEntry.getAsJsonObject();
-			
-			AuditLogEntry entry = new AuditLogEntry(
-				UUID.fromString(jsonLogEntryObject.get("uuid").getAsString()),
-				jsonLogEntryObject.get("code").getAsInt(),
-				LocalDateTime.parse(
-					jsonLogEntryObject.get("created_at").getAsString(),
-					DateTimeFormatter.ISO_DATE_TIME
-				),
-				jsonLogEntryObject.get("text").getAsString(),
-				Severity.values()[jsonLogEntryObject.get("severity").getAsInt() - 1]
-			);
-			
-			if (jsonLogEntryObject.has("node_uuid") && !jsonLogEntryObject.get("node_uuid").isJsonNull()) {
-				entry.setNodeUuid(
-					UUID.fromString(jsonLogEntryObject.get("node_uuid").getAsString())
-				);
-			}
-			
-			if (jsonLogEntryObject.has("share_uuid") && !jsonLogEntryObject.get("share_uuid").isJsonNull()) {
-				entry.setShareUuid(
-					UUID.fromString(jsonLogEntryObject.get("share_uuid").getAsString())
-				);
-			}
-			
-			if (jsonLogEntryObject.has("owner_uuid") && !jsonLogEntryObject.get("owner_uuid").isJsonNull()) {
-				entry.setOwnerUuid(
-					UUID.fromString(jsonLogEntryObject.get("owner_uuid").getAsString())
-				);
-			}
-			
-			result.add(entry);
-		}
-		
-		return result;
-	}
+
+  public static List<AuditLogEntry> getAuditLogEntries(URI apiUri, String bearerToken, AuditLogFilter auditLogFilter) throws IOException, InterruptedException, URISyntaxException {
+    ArrayList<AuditLogEntry> result = null;
+
+    URIBuilder uri
+      = new URIBuilder(apiUri.toString() + ENDPOINT_PATH)
+        .addParameters(auditLogFilter.build());
+
+    HttpRequest req = HttpRequest.newBuilder()
+      .GET()
+      .uri(uri.build())
+      .header(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken)
+      .header(HttpHeaders.ACCEPT, "application/json")
+      .build();
+
+    HttpResponse<String> response = HttpClient
+      .newBuilder()
+      .build()
+      .send(req, HttpResponse.BodyHandlers.ofString());
+
+    if (response.statusCode() == 403) {
+      ErrorResponse error = new Gson().fromJson(
+        JsonParser.parseString(response.body()).getAsJsonObject().get("error").getAsJsonObject(),
+        ErrorResponse.class
+      );
+
+      throw new GetAuditLogEntriesListException(error.toString());
+    }
+
+    JsonArray jsonLogEntries = JsonParser.parseString(response.body()).getAsJsonArray();
+
+    result = new ArrayList<>();
+
+    for (JsonElement jsonLogEntry : jsonLogEntries) {
+      JsonObject jsonLogEntryObject = jsonLogEntry.getAsJsonObject();
+
+      AuditLogEntry entry = new AuditLogEntry(
+        UUID.fromString(jsonLogEntryObject.get("uuid").getAsString()),
+        jsonLogEntryObject.get("code").getAsInt(),
+        LocalDateTime.parse(
+          jsonLogEntryObject.get("created_at").getAsString(),
+          DateTimeFormatter.ISO_DATE_TIME
+        ),
+        jsonLogEntryObject.get("text").getAsString(),
+        Severity.values()[jsonLogEntryObject.get("severity").getAsInt() - 1]
+      );
+
+      if (jsonLogEntryObject.has("node_uuid") && !jsonLogEntryObject.get("node_uuid").isJsonNull()) {
+        entry.setNodeUuid(
+          UUID.fromString(jsonLogEntryObject.get("node_uuid").getAsString())
+        );
+      }
+
+      if (jsonLogEntryObject.has("share_uuid") && !jsonLogEntryObject.get("share_uuid").isJsonNull()) {
+        entry.setShareUuid(
+          UUID.fromString(jsonLogEntryObject.get("share_uuid").getAsString())
+        );
+      }
+
+      if (jsonLogEntryObject.has("owner_uuid") && !jsonLogEntryObject.get("owner_uuid").isJsonNull()) {
+        entry.setOwnerUuid(
+          UUID.fromString(jsonLogEntryObject.get("owner_uuid").getAsString())
+        );
+      }
+
+      result.add(entry);
+    }
+
+    return result;
+  }
 }

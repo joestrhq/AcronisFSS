@@ -10,7 +10,8 @@ package at.or.joestr.acronisfss.api.structures;
  * @author Joel
  */
 public class CanBeChanged {
-	private boolean invite;
-	private boolean viewMembers;
-	private boolean readOnly;
+
+  private boolean invite;
+  private boolean viewMembers;
+  private boolean readOnly;
 }

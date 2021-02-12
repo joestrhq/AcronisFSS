@@ -10,7 +10,8 @@ package at.or.joestr.acronisfss.api.structures;
  * @author Joel
  */
 public class AuditLogSettings {
-	private boolean purgeLogsOlderThanEnabled;
-	//private ? purgeLogsOlderThanUnits;
-	private int purgeLogsOlderThanN;
+
+  private boolean purgeLogsOlderThanEnabled;
+  //private ? purgeLogsOlderThanUnits;
+  private int purgeLogsOlderThanN;
 }

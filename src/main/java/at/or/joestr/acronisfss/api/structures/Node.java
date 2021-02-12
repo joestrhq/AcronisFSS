@@ -12,26 +12,26 @@ import java.time.LocalDateTime;
  * @author Joel
  */
 public abstract class Node {
-	
-	private NodeUuid nodeUuid;
-	private NodeName nodeName;
-	private boolean directory;
-	private long size;
-	private LocalDateTime fileModificationDate;
-	private boolean deleted;
-	private boolean synced;
-	private LocalDateTime expirationDate;
-	private boolean readOnly;
-	private boolean hasActiveLinks;
-	private boolean hasSharedChildNodes;
-	private boolean shared;
-	private String ownerEmail;
-	//private ? parents;
-	private String checksum;
-	private NodeUuid parentUuid;
-	private boolean writableChildren;
-	//private ? officeOnlinePermissions;
-	//private Owner owner;
-	//private Permissions permissions;
-	//private Actions actions;
+
+  private NodeUuid nodeUuid;
+  private NodeName nodeName;
+  private boolean directory;
+  private long size;
+  private LocalDateTime fileModificationDate;
+  private boolean deleted;
+  private boolean synced;
+  private LocalDateTime expirationDate;
+  private boolean readOnly;
+  private boolean hasActiveLinks;
+  private boolean hasSharedChildNodes;
+  private boolean shared;
+  private String ownerEmail;
+  //private ? parents;
+  private String checksum;
+  private NodeUuid parentUuid;
+  private boolean writableChildren;
+  //private ? officeOnlinePermissions;
+  //private Owner owner;
+  //private Permissions permissions;
+  //private Actions actions;
 }

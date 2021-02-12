@@ -32,105 +32,104 @@ import org.apache.http.entity.ContentType;
  */
 public class AuthorizationEndpoint {
 
-	public static String ENDPOINT_PATH = "/token";
-	
-	private AuthorizationEndpoint() {
-		throw new IllegalStateException("Utility class");
-	}
+  public static String ENDPOINT_PATH = "/token";
 
-	public static OAuth2Token getToken(URI authUri, String grantType, String username, String password) throws IOException, InterruptedException, URISyntaxException {
+  private AuthorizationEndpoint() {
+    throw new IllegalStateException("Utility class");
+  }
 
-		OAuth2Token result;
+  public static OAuth2Token getToken(URI authUri, String grantType, String username, String password) throws IOException, InterruptedException, URISyntaxException {
 
-		HttpRequest req = HttpRequest.newBuilder()
-			.uri(new URI(authUri.toString() + ENDPOINT_PATH))
-			.header(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType())
-			.header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED.getMimeType())
-			.POST(HttpRequest.BodyPublishers.ofString(
-				new StringBuilder("")
-					.append("grant_type=").append(grantType)
-					.append("&").append("username=").append(URLEncoder.encode(username, StandardCharsets.UTF_8))
-					.append("&").append("password=").append(URLEncoder.encode(password, StandardCharsets.UTF_8))
-					.toString(),
-				
-					StandardCharsets.UTF_8
-			))
-			.build();
+    OAuth2Token result;
 
-		HttpResponse<String> response
-			= HttpClient
-				.newBuilder()
-				.build()
-				.send(req, HttpResponse.BodyHandlers.ofString());
-		
-		if (response.statusCode() == 401) {
-			ErrorResponse error = new Gson().fromJson(
-				JsonParser.parseString(response.body()).getAsJsonObject().get("error").getAsJsonObject(),
-				ErrorResponse.class
-			);
-			
-			throw new FilesProtectApiException(error.toString());
-		}
-		
-		JsonObject jsonResponse = JsonParser.parseString(response.body()).getAsJsonObject();
-		
-		result = new OAuth2Token(
-			LocalDateTime.ofInstant(Instant.ofEpochSecond(
-				jsonResponse.get("expires_on").getAsLong()),
-				TimeZone.getTimeZone("UTC").toZoneId()
-			),
-			jsonResponse.get("token_type").getAsString(),
-			jsonResponse.get("access_token").getAsString(),
-			jsonResponse.get("id_token").getAsString()
-		);
+    HttpRequest req = HttpRequest.newBuilder()
+      .uri(new URI(authUri.toString() + ENDPOINT_PATH))
+      .header(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType())
+      .header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED.getMimeType())
+      .POST(HttpRequest.BodyPublishers.ofString(
+        new StringBuilder("")
+          .append("grant_type=").append(grantType)
+          .append("&").append("username=").append(URLEncoder.encode(username, StandardCharsets.UTF_8))
+          .append("&").append("password=").append(URLEncoder.encode(password, StandardCharsets.UTF_8))
+          .toString(),
+        StandardCharsets.UTF_8
+      ))
+      .build();
 
-		return result;
-	}
-	
-	public static OAuth2Token getToken(URI authUri, String grantType, OAuth2Token token) throws IOException, InterruptedException, URISyntaxException {
+    HttpResponse<String> response
+      = HttpClient
+        .newBuilder()
+        .build()
+        .send(req, HttpResponse.BodyHandlers.ofString());
 
-		OAuth2Token result;
+    if (response.statusCode() == 401) {
+      ErrorResponse error = new Gson().fromJson(
+        JsonParser.parseString(response.body()).getAsJsonObject().get("error").getAsJsonObject(),
+        ErrorResponse.class
+      );
 
-		HttpRequest req = HttpRequest.newBuilder()
-			.uri(new URI(authUri.toString() + ENDPOINT_PATH))
-			.header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED.getMimeType())
-			.header(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType())
-			.POST(HttpRequest.BodyPublishers.ofString(
-				new StringBuilder("")
-					.append("grant_type=").append(grantType)
-					.append("&").append("refresh_token=").append(token.getIdToken())
-					.toString(),
-				StandardCharsets.UTF_8
-			))
-			.build();
+      throw new FilesProtectApiException(error.toString());
+    }
 
-		HttpResponse<String> response
-			= HttpClient
-				.newBuilder()
-				.build()
-				.send(req, HttpResponse.BodyHandlers.ofString());
-		
-		if (response.statusCode() == 401) {
-			Error error = new Gson().fromJson(
-				JsonParser.parseString(response.body()).getAsJsonObject().get("error").getAsJsonObject(),
-				Error.class
-			);
-			
-			throw new FilesProtectApiException(error.toString());
-		}
-		
-		JsonObject jsonResponse = JsonParser.parseString(response.body()).getAsJsonObject();
-		
-		result = new OAuth2Token(
-			LocalDateTime.ofInstant(Instant.ofEpochSecond(
-				jsonResponse.get("expires_on").getAsLong()),
-				TimeZone.getTimeZone("UTC").toZoneId()
-			),
-			jsonResponse.get("token_type").getAsString(),
-			jsonResponse.get("access_token").getAsString(),
-			jsonResponse.get("id_token").getAsString()
-		);
+    JsonObject jsonResponse = JsonParser.parseString(response.body()).getAsJsonObject();
 
-		return result;
-	}
+    result = new OAuth2Token(
+      LocalDateTime.ofInstant(Instant.ofEpochSecond(
+        jsonResponse.get("expires_on").getAsLong()),
+        TimeZone.getTimeZone("UTC").toZoneId()
+      ),
+      jsonResponse.get("token_type").getAsString(),
+      jsonResponse.get("access_token").getAsString(),
+      jsonResponse.get("id_token").getAsString()
+    );
+
+    return result;
+  }
+
+  public static OAuth2Token getToken(URI authUri, String grantType, OAuth2Token token) throws IOException, InterruptedException, URISyntaxException {
+
+    OAuth2Token result;
+
+    HttpRequest req = HttpRequest.newBuilder()
+      .uri(new URI(authUri.toString() + ENDPOINT_PATH))
+      .header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED.getMimeType())
+      .header(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType())
+      .POST(HttpRequest.BodyPublishers.ofString(
+        new StringBuilder("")
+          .append("grant_type=").append(grantType)
+          .append("&").append("refresh_token=").append(token.getIdToken())
+          .toString(),
+        StandardCharsets.UTF_8
+      ))
+      .build();
+
+    HttpResponse<String> response
+      = HttpClient
+        .newBuilder()
+        .build()
+        .send(req, HttpResponse.BodyHandlers.ofString());
+
+    if (response.statusCode() == 401) {
+      Error error = new Gson().fromJson(
+        JsonParser.parseString(response.body()).getAsJsonObject().get("error").getAsJsonObject(),
+        Error.class
+      );
+
+      throw new FilesProtectApiException(error.toString());
+    }
+
+    JsonObject jsonResponse = JsonParser.parseString(response.body()).getAsJsonObject();
+
+    result = new OAuth2Token(
+      LocalDateTime.ofInstant(Instant.ofEpochSecond(
+        jsonResponse.get("expires_on").getAsLong()),
+        TimeZone.getTimeZone("UTC").toZoneId()
+      ),
+      jsonResponse.get("token_type").getAsString(),
+      jsonResponse.get("access_token").getAsString(),
+      jsonResponse.get("id_token").getAsString()
+    );
+
+    return result;
+  }
 }

@@ -10,20 +10,20 @@ package at.or.joestr.acronisfss.api.structures;
  * @author Joel
  */
 public class Permissions {
-	private boolean beRenamed;
-	private boolean beUnsubscribed;
-	private boolean beRestored;
-	private boolean createFoldersInto;
-	private boolean beCopied;
-	private boolean createFiledInto;
-	private boolean viewMembers;
-	private boolean beSynced2Way;
-	private boolean beDeleted;
-	private boolean beSynced1Way;
-	private boolean beMoved;
-	private boolean beShared;
-	private boolean beSharedViaLink;
-	private boolean invite;
-	private boolean beDownloaded;
-	private boolean selectivelyPurgeRevisions;
+  private boolean beRenamed;
+  private boolean beUnsubscribed;
+  private boolean beRestored;
+  private boolean createFoldersInto;
+  private boolean beCopied;
+  private boolean createFiledInto;
+  private boolean viewMembers;
+  private boolean beSynced2Way;
+  private boolean beDeleted;
+  private boolean beSynced1Way;
+  private boolean beMoved;
+  private boolean beShared;
+  private boolean beSharedViaLink;
+  private boolean invite;
+  private boolean beDownloaded;
+  private boolean selectivelyPurgeRevisions;
 }

@@ -10,5 +10,5 @@ package at.or.joestr.acronisfss.api.structures;
  * @author Joel
  */
 public class SettingsPurgingPoliciesRequest {
-	//private ? purging_policies_settings;
+  //private ? purging_policies_settings;
 }

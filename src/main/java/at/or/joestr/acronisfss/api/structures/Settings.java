@@ -10,7 +10,7 @@ package at.or.joestr.acronisfss.api.structures;
  * @author Joel
  */
 public class Settings {
-	private String fromName;
-	private String fromAddress;
-	private String use_system_address_for_all_headers;
+  private String fromName;
+  private String fromAddress;
+  private String use_system_address_for_all_headers;
 }

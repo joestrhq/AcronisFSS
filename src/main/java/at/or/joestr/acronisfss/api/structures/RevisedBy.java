@@ -10,6 +10,6 @@ package at.or.joestr.acronisfss.api.structures;
  * @author Joel
  */
 public class RevisedBy {
-	private String name;
-	private String email;
+  private String name;
+  private String email;
 }

@@ -10,7 +10,7 @@ package at.or.joestr.acronisfss.api.structures;
  * @author Joel
  */
 public class SettingsAuditLogResponse {
-	private String purge_logs_older_than_enabled;
-	private String purge_logs_older_than_units;
-	private String purge_logs_older_than_n;
+  private String purge_logs_older_than_enabled;
+  private String purge_logs_older_than_units;
+  private String purge_logs_older_than_n;
 }

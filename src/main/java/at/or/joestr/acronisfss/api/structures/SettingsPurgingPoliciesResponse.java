@@ -10,15 +10,15 @@ package at.or.joestr.acronisfss.api.structures;
  * @author Joel
  */
 public class SettingsPurgingPoliciesResponse {
-	private String purge_deleted_files_older_than_enabled;
-	private String purge_deleted_files_older_than_n;
-	private String purge_deleted_files_older_than_units;
-	private String purge_revisions_older_than_enabled;
-	private String purge_revisions_older_than_n;
-	private String purge_revisions_older_than_units;
-	private String keep_at_least_n_revisions_enabled;
-	private String keep_at_least_n_revisions;
-	private String only_keep_n_revisions_enabled;
-	private String only_keep_n_revisions;
-	private String allow_users_to_selectively_purge_revisions;
+  private String purge_deleted_files_older_than_enabled;
+  private String purge_deleted_files_older_than_n;
+  private String purge_deleted_files_older_than_units;
+  private String purge_revisions_older_than_enabled;
+  private String purge_revisions_older_than_n;
+  private String purge_revisions_older_than_units;
+  private String keep_at_least_n_revisions_enabled;
+  private String keep_at_least_n_revisions;
+  private String only_keep_n_revisions_enabled;
+  private String only_keep_n_revisions;
+  private String allow_users_to_selectively_purge_revisions;
 }

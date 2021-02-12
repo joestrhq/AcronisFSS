@@ -11,23 +11,23 @@ package at.or.joestr.acronisfss.api.exceptions;
  */
 public class GetAuditLogEntriesListException extends RuntimeException {
 
-	public GetAuditLogEntriesListException() {
-	}
+  public GetAuditLogEntriesListException() {
+  }
 
-	public GetAuditLogEntriesListException(String message) {
-		super(message);
-	}
+  public GetAuditLogEntriesListException(String message) {
+    super(message);
+  }
 
-	public GetAuditLogEntriesListException(String message, Throwable cause) {
-		super(message, cause);
-	}
+  public GetAuditLogEntriesListException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-	public GetAuditLogEntriesListException(Throwable cause) {
-		super(cause);
-	}
+  public GetAuditLogEntriesListException(Throwable cause) {
+    super(cause);
+  }
 
-	public GetAuditLogEntriesListException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-	}
-	
+  public GetAuditLogEntriesListException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    super(message, cause, enableSuppression, writableStackTrace);
+  }
+
 }

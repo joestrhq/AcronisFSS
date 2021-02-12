@@ -12,7 +12,8 @@ import java.net.URL;
  * @author Joel
  */
 public class Actions {
-	private URL download;
-	private URL upload;
-	private URL preview;
+
+  private URL download;
+  private URL upload;
+  private URL preview;
 }

@@ -12,10 +12,10 @@ import java.util.List;
  * @author Joel
  */
 public class Link {
-	private List<?> recipients;
-	private String message;
-	//private ? locale;
-	private int ttl;
-	//private ? accesRestriction;
-	private boolean singleUse;
+  private List<?> recipients;
+  private String message;
+  //private ? locale;
+  private int ttl;
+  //private ? accesRestriction;
+  private boolean singleUse;
 }

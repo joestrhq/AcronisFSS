@@ -16,29 +16,29 @@ import java.util.UUID;
  */
 public class DeviceEndpoint {
 
-	public DeviceEndpoint() {
-		throw new IllegalStateException("Utility class");
-	}
-	
-	public static List<Device> getDevices(int perPage, int page, UUID tenantId) {
-		ArrayList<Device> result = null;
-		
-		return null;
-	}
-	
-	public static Device getDeviceInformation(UUID deviceUuuid, UUID tenantId) {
-		Device result = null;
-		
-		return result;
-	}
-	
-	public static void updateDevice(UUID deviceUuid, Device device) {
-		
-		return;
-	}
-	
-	public static void deleteDevice(UUID deviceUuid, Device device) {
-		
-		return;
-	}
+  public DeviceEndpoint() {
+    throw new IllegalStateException("Utility class");
+  }
+
+  public static List<Device> getDevices(int perPage, int page, UUID tenantId) {
+    ArrayList<Device> result = null;
+
+    return null;
+  }
+
+  public static Device getDeviceInformation(UUID deviceUuuid, UUID tenantId) {
+    Device result = null;
+
+    return result;
+  }
+
+  public static void updateDevice(UUID deviceUuid, Device device) {
+
+    return;
+  }
+
+  public static void deleteDevice(UUID deviceUuid, Device device) {
+
+    return;
+  }
 }

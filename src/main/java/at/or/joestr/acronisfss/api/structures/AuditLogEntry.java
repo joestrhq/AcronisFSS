@@ -13,113 +13,113 @@ import java.util.UUID;
  * @author joestr
  */
 public class AuditLogEntry {
-	private UUID uuid;
-	private int code;
-	private LocalDateTime createdAt;
-	private String text;
-	private Severity severty;
-	private UUID nodeUuid;
-	private UUID shareUuid;
-	private UUID ownerUuid;
-	private Share share;
-	private NodeAuditLogEntry node;
-	private UserAuditLogEntry user;
 
-	public AuditLogEntry(UUID uuid, int code, LocalDateTime createdAt, String text, Severity severty) {
-		this.uuid = uuid;
-		this.code = code;
-		this.createdAt = createdAt;
-		this.text = text;
-		this.severty = severty;
-	}
+  private UUID uuid;
+  private int code;
+  private LocalDateTime createdAt;
+  private String text;
+  private Severity severty;
+  private UUID nodeUuid;
+  private UUID shareUuid;
+  private UUID ownerUuid;
+  private Share share;
+  private NodeAuditLogEntry node;
+  private UserAuditLogEntry user;
 
-	public UUID getUuid() {
-		return uuid;
-	}
+  public AuditLogEntry(UUID uuid, int code, LocalDateTime createdAt, String text, Severity severty) {
+    this.uuid = uuid;
+    this.code = code;
+    this.createdAt = createdAt;
+    this.text = text;
+    this.severty = severty;
+  }
 
-	public void setUuid(UUID uuid) {
-		this.uuid = uuid;
-	}
+  public UUID getUuid() {
+    return uuid;
+  }
 
-	public int getCode() {
-		return code;
-	}
+  public void setUuid(UUID uuid) {
+    this.uuid = uuid;
+  }
 
-	public void setCode(int code) {
-		this.code = code;
-	}
+  public int getCode() {
+    return code;
+  }
 
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
+  public void setCode(int code) {
+    this.code = code;
+  }
 
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
+  }
 
-	public String getText() {
-		return text;
-	}
+  public void setCreatedAt(LocalDateTime createdAt) {
+    this.createdAt = createdAt;
+  }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+  public String getText() {
+    return text;
+  }
 
-	public Severity getSeverty() {
-		return severty;
-	}
+  public void setText(String text) {
+    this.text = text;
+  }
 
-	public void setSeverty(Severity severty) {
-		this.severty = severty;
-	}
+  public Severity getSeverty() {
+    return severty;
+  }
 
-	public UUID getNodeUuid() {
-		return nodeUuid;
-	}
+  public void setSeverty(Severity severty) {
+    this.severty = severty;
+  }
 
-	public void setNodeUuid(UUID nodeUuid) {
-		this.nodeUuid = nodeUuid;
-	}
+  public UUID getNodeUuid() {
+    return nodeUuid;
+  }
 
-	public UUID getShareUuid() {
-		return shareUuid;
-	}
+  public void setNodeUuid(UUID nodeUuid) {
+    this.nodeUuid = nodeUuid;
+  }
 
-	public void setShareUuid(UUID shareUuid) {
-		this.shareUuid = shareUuid;
-	}
+  public UUID getShareUuid() {
+    return shareUuid;
+  }
 
-	public UUID getOwnerUuid() {
-		return ownerUuid;
-	}
+  public void setShareUuid(UUID shareUuid) {
+    this.shareUuid = shareUuid;
+  }
 
-	public void setOwnerUuid(UUID ownerUuid) {
-		this.ownerUuid = ownerUuid;
-	}
+  public UUID getOwnerUuid() {
+    return ownerUuid;
+  }
 
-	public Share getShare() {
-		return share;
-	}
+  public void setOwnerUuid(UUID ownerUuid) {
+    this.ownerUuid = ownerUuid;
+  }
 
-	public void setShare(Share share) {
-		this.share = share;
-	}
+  public Share getShare() {
+    return share;
+  }
 
-	public NodeAuditLogEntry getNode() {
-		return node;
-	}
+  public void setShare(Share share) {
+    this.share = share;
+  }
 
-	public void setNode(NodeAuditLogEntry node) {
-		this.node = node;
-	}
+  public NodeAuditLogEntry getNode() {
+    return node;
+  }
 
-	public UserAuditLogEntry getUser() {
-		return user;
-	}
+  public void setNode(NodeAuditLogEntry node) {
+    this.node = node;
+  }
 
-	public void setUser(UserAuditLogEntry user) {
-		this.user = user;
-	}
+  public UserAuditLogEntry getUser() {
+    return user;
+  }
 
-	
+  public void setUser(UserAuditLogEntry user) {
+    this.user = user;
+  }
+
 }

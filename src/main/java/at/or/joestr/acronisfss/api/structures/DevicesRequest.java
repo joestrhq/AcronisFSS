@@ -10,5 +10,5 @@ package at.or.joestr.acronisfss.api.structures;
  * @author Joel
  */
 public class DevicesRequest {
-	//private ? device;
+  //private ? device;
 }

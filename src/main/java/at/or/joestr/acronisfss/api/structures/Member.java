@@ -12,12 +12,12 @@ import java.util.UUID;
  * @author Joel
  */
 public class Member {
-	private UUID id;
-	private boolean readOnly;
-	private boolean viewMembers;
-	private boolean invite;
-	private String email;
-	private String name;
-	//private ? permissionFor;
-	//private ? beChanged;
+  private UUID id;
+  private boolean readOnly;
+  private boolean viewMembers;
+  private boolean invite;
+  private String email;
+  private String name;
+  //private ? permissionFor;
+  //private ? beChanged;
 }

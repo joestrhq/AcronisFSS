@@ -9,6 +9,6 @@ package at.or.joestr.acronisfss.api.structures;
  *
  * @author Joel
  */
-public class FileNode extends Node{
-	
+public class FileNode extends Node {
+
 }

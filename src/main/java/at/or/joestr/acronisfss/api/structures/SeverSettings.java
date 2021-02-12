@@ -10,11 +10,11 @@ package at.or.joestr.acronisfss.api.structures;
  * @author Joel
  */
 public class SeverSettings {
-	private String serverName;
-	private String rootWebAddress;
-	//private ? defaultLocale;
-	private int sessionTimeoutInMinutes;
-	private boolean notificationAdminEnabled;
-	private String notificationAdminEmail;
-	private int notificationAdminFrequency;
+  private String serverName;
+  private String rootWebAddress;
+  //private ? defaultLocale;
+  private int sessionTimeoutInMinutes;
+  private boolean notificationAdminEnabled;
+  private String notificationAdminEmail;
+  private int notificationAdminFrequency;
 }

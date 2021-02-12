@@ -11,23 +11,23 @@ package at.or.joestr.acronisfss.api.exceptions;
  */
 public class FilesProtectApiException extends RuntimeException {
 
-	public FilesProtectApiException() {
-	}
+  public FilesProtectApiException() {
+  }
 
-	public FilesProtectApiException(String message) {
-		super(message);
-	}
+  public FilesProtectApiException(String message) {
+    super(message);
+  }
 
-	public FilesProtectApiException(String message, Throwable cause) {
-		super(message, cause);
-	}
+  public FilesProtectApiException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-	public FilesProtectApiException(Throwable cause) {
-		super(cause);
-	}
+  public FilesProtectApiException(Throwable cause) {
+    super(cause);
+  }
 
-	public FilesProtectApiException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-	}
-	
+  public FilesProtectApiException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    super(message, cause, enableSuppression, writableStackTrace);
+  }
+
 }

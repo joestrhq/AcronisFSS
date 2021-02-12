@@ -10,8 +10,8 @@ package at.or.joestr.acronisfss.api.structures;
  * @author joestr
  */
 public enum Severity {
-	INFO,
-	WARNING,
-	ERROR,
-	FATAL
+  INFO,
+  WARNING,
+  ERROR,
+  FATAL
 }

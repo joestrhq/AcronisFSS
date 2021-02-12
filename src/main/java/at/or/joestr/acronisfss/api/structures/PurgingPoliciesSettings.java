@@ -10,15 +10,15 @@ package at.or.joestr.acronisfss.api.structures;
  * @author Joel
  */
 public class PurgingPoliciesSettings {
-	private boolean purgeDeletedFilesOlderThanEnabled;
-	private int purgeDeletedFilesOlderThanN;
-	//private ? purgeDeletedFilesOlderThanUnits;
-	private boolean purgeRevisionsOlderThabEnabled;
-	private int purgeRevisionsOlderThanN;
-	//private ? purgeRevisionsOlderThanUnits;
-	private boolean keepAtLeastNRevisionsEnabled;
-	private int keepAtLeastNRevisions;
-	private boolean onlyKeepNRevisionsEnabled;
-	private int onlyKeepNRevisions;
-	private boolean allowUsersToSelectivelyPurgeRevisions;
+  private boolean purgeDeletedFilesOlderThanEnabled;
+  private int purgeDeletedFilesOlderThanN;
+  //private ? purgeDeletedFilesOlderThanUnits;
+  private boolean purgeRevisionsOlderThabEnabled;
+  private int purgeRevisionsOlderThanN;
+  //private ? purgeRevisionsOlderThanUnits;
+  private boolean keepAtLeastNRevisionsEnabled;
+  private int keepAtLeastNRevisions;
+  private boolean onlyKeepNRevisionsEnabled;
+  private int onlyKeepNRevisions;
+  private boolean allowUsersToSelectivelyPurgeRevisions;
 }

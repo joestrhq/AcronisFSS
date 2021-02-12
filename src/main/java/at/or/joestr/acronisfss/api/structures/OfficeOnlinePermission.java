@@ -10,7 +10,7 @@ package at.or.joestr.acronisfss.api.structures;
  * @author Joel
  */
 public class OfficeOnlinePermission {
-	private boolean createFilesInto;
-	private boolean bePreviewed;
-	private boolean beEdited;
+  private boolean createFilesInto;
+  private boolean bePreviewed;
+  private boolean beEdited;
 }

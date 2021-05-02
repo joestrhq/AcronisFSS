@@ -62,6 +62,17 @@ public class TestApi {
 		
 		Assertions.assertNotEquals(null, entries.get(0));
 	}
+  
+  @Test
+  @Order(13)
+  public void getAuditLogWithFilter() {
+    ArrayList<AuditLogEntry> entries = (ArrayList) acronisApi.getAuditLog(
+      new AuditLogFilter()
+        .filterText("this string is not in the log yet")
+    );
+    
+    Assertions.assertEquals(0, entries.size());
+  }
 	
 	@Test
 	@Order(90)

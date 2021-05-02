@@ -97,7 +97,7 @@ public class AuthorizationEndpoint {
       .POST(HttpRequest.BodyPublishers.ofString(
         new StringBuilder("")
           .append("grant_type=").append(grantType)
-          .append("&").append("refresh_token=").append(token.getIdToken())
+          .append("&").append("refresh_token=").append(token.getAccessToken())
           .toString(),
         StandardCharsets.UTF_8
       ))

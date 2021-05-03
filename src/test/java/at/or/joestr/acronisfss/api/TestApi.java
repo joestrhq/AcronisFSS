@@ -60,7 +60,7 @@ public class TestApi {
 	public void getAuditLog() {
 		ArrayList<AuditLogEntry> entries = (ArrayList) acronisApi.getAuditLog(new AuditLogFilter());
 		
-		Assertions.assertNotEquals(null, entries.get(0));
+		Assertions.assertNotEquals(null, entries.get(0), "is audit log not empty");
 	}
   
   @Test
@@ -71,7 +71,7 @@ public class TestApi {
         .filterText("this string is not in the log yet")
     );
     
-    Assertions.assertEquals(0, entries.size());
+    Assertions.assertEquals(0, entries.size(), "is audit log empty");
   }
 	
 	@Test

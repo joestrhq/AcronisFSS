@@ -1,2 +1,2 @@
 # AcronisFSS
-Access 'Acronis Files Sync &amp; Share' through their API
+Access _Acronis Files Sync &amp; Share_ through their API

@@ -14,27 +14,27 @@ import org.apache.http.message.BasicNameValuePair;
  *
  * @author joestr
  */
-public class DeviceFilter {
+public class DeviceListFilter {
 
   private Integer perPage = null;
   private Integer page = null;
   private String tenantId = null;
 
-  public DeviceFilter() {
+  public DeviceListFilter() {
     super();
   }
 
-  public DeviceFilter perPage(Integer perPage) {
+  public DeviceListFilter perPage(Integer perPage) {
     this.perPage = perPage;
     return this;
   }
 
-  public DeviceFilter page(Integer page) {
+  public DeviceListFilter page(Integer page) {
     this.page = page;
     return this;
   }
 
-  public DeviceFilter tenantId(String tenantId) {
+  public DeviceListFilter tenantId(String tenantId) {
     this.tenantId = tenantId;
     return this;
   }

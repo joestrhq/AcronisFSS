@@ -5,8 +5,10 @@
  */
 package at.or.joestr.acronisfss.api;
 
-import at.or.joestr.acronisfss.api.filter.AuditLogFilter;
+import at.or.joestr.acronisfss.api.filter.AuditLogEntriesListFilter;
+import at.or.joestr.acronisfss.api.filter.DeviceListFilter;
 import at.or.joestr.acronisfss.api.structures.AuditLogEntry;
+import at.or.joestr.acronisfss.api.structures.Device;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -58,7 +60,7 @@ public class TestApi {
 	@Test
 	@Order(12)
 	public void getAuditLog() {
-		ArrayList<AuditLogEntry> entries = (ArrayList) acronisApi.getAuditLog(new AuditLogFilter());
+		ArrayList<AuditLogEntry> entries = (ArrayList) acronisApi.getAuditLog(new AuditLogEntriesListFilter());
 		
 		Assertions.assertNotEquals(null, entries.get(0), "is audit log not empty");
 	}
@@ -66,12 +68,19 @@ public class TestApi {
   @Test
   @Order(13)
   public void getAuditLogWithFilter() {
-    ArrayList<AuditLogEntry> entries = (ArrayList) acronisApi.getAuditLog(
-      new AuditLogFilter()
+    ArrayList<AuditLogEntry> entries = (ArrayList) acronisApi.getAuditLog(new AuditLogEntriesListFilter()
         .filterText("this string is not in the log yet")
     );
     
     Assertions.assertEquals(0, entries.size(), "is audit log empty");
+  }
+  
+  @Test
+  @Order(14)
+  public void getDevicesList() {
+    ArrayList<Device> entries = (ArrayList) acronisApi.getDevices(new DeviceListFilter());
+    
+    Assertions.assertEquals(0, entries.size(), "is device list empty");
   }
 	
 	@Test

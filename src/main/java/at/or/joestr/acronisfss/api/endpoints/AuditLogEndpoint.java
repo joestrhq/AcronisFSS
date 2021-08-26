@@ -6,7 +6,7 @@
 package at.or.joestr.acronisfss.api.endpoints;
 
 import at.or.joestr.acronisfss.api.exceptions.GetAuditLogEntriesListException;
-import at.or.joestr.acronisfss.api.filter.AuditLogFilter;
+import at.or.joestr.acronisfss.api.filter.AuditLogEntriesListFilter;
 import java.util.List;
 import at.or.joestr.acronisfss.api.structures.AuditLogEntry;
 import at.or.joestr.acronisfss.api.structures.ErrorResponse;
@@ -41,7 +41,7 @@ public class AuditLogEndpoint {
     throw new IllegalStateException("Utility class");
   }
 
-  public static List<AuditLogEntry> getAuditLogEntries(URI apiUri, String bearerToken, AuditLogFilter auditLogFilter) throws IOException, InterruptedException, URISyntaxException {
+  public static List<AuditLogEntry> getAuditLogEntries(URI apiUri, String bearerToken, AuditLogEntriesListFilter auditLogFilter) throws IOException, InterruptedException, URISyntaxException {
     ArrayList<AuditLogEntry> result = null;
 
     URIBuilder uri
@@ -76,7 +76,7 @@ public class AuditLogEndpoint {
     for (JsonElement jsonLogEntry : jsonLogEntries) {
       JsonObject jsonLogEntryObject = jsonLogEntry.getAsJsonObject();
 
-      AuditLogEntry entry = new AuditLogEntry(
+      AuditLogEntry resultEntry = new AuditLogEntry(
         UUID.fromString(jsonLogEntryObject.get("uuid").getAsString()),
         jsonLogEntryObject.get("code").getAsInt(),
         LocalDateTime.parse(
@@ -88,24 +88,24 @@ public class AuditLogEndpoint {
       );
 
       if (jsonLogEntryObject.has("node_uuid") && !jsonLogEntryObject.get("node_uuid").isJsonNull()) {
-        entry.setNodeUuid(
+        resultEntry.setNodeUuid(
           UUID.fromString(jsonLogEntryObject.get("node_uuid").getAsString())
         );
       }
 
       if (jsonLogEntryObject.has("share_uuid") && !jsonLogEntryObject.get("share_uuid").isJsonNull()) {
-        entry.setShareUuid(
+        resultEntry.setShareUuid(
           UUID.fromString(jsonLogEntryObject.get("share_uuid").getAsString())
         );
       }
 
       if (jsonLogEntryObject.has("owner_uuid") && !jsonLogEntryObject.get("owner_uuid").isJsonNull()) {
-        entry.setOwnerUuid(
+        resultEntry.setOwnerUuid(
           UUID.fromString(jsonLogEntryObject.get("owner_uuid").getAsString())
         );
       }
 
-      result.add(entry);
+      result.add(resultEntry);
     }
 
     return result;

@@ -8,8 +8,11 @@ package at.or.joestr.acronisfss.api;
 import at.or.joestr.acronisfss.api.classes.OAuth2Token;
 import at.or.joestr.acronisfss.api.endpoints.AuditLogEndpoint;
 import at.or.joestr.acronisfss.api.endpoints.AuthorizationEndpoint;
-import at.or.joestr.acronisfss.api.filter.AuditLogFilter;
+import at.or.joestr.acronisfss.api.endpoints.DeviceEndpoint;
+import at.or.joestr.acronisfss.api.filter.AuditLogEntriesListFilter;
+import at.or.joestr.acronisfss.api.filter.DeviceListFilter;
 import at.or.joestr.acronisfss.api.structures.AuditLogEntry;
+import at.or.joestr.acronisfss.api.structures.Device;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -85,9 +88,20 @@ public class Api {
    *
    * @return Audit log entries.
    */
-  public List<AuditLogEntry> getAuditLog(AuditLogFilter auditLogFilter) {
+  public List<AuditLogEntry> getAuditLog(AuditLogEntriesListFilter auditLogFilter) {
     try {
       return AuditLogEndpoint.getAuditLogEntries(apiUri, this.token.getAccessToken(), auditLogFilter);
+    } catch (IOException | InterruptedException | URISyntaxException ex) {
+      LOGGER.log(Level.SEVERE, "Error whilst re-authorizing client.", ex);
+      Thread.currentThread().interrupt();
+    }
+
+    return new ArrayList<>();
+  }
+  
+  public List<Device> getDevices(DeviceListFilter deviceListFilter) {
+    try {
+      return DeviceEndpoint.getDevices(apiUri, this.token.getAccessToken(), deviceListFilter);
     } catch (IOException | InterruptedException | URISyntaxException ex) {
       LOGGER.log(Level.SEVERE, "Error whilst re-authorizing client.", ex);
       Thread.currentThread().interrupt();

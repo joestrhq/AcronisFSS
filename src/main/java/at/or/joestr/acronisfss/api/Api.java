@@ -11,6 +11,7 @@ import at.or.joestr.acronisfss.api.endpoints.AuthorizationEndpoint;
 import at.or.joestr.acronisfss.api.endpoints.DeviceEndpoint;
 import at.or.joestr.acronisfss.api.filter.AuditLogEntriesListFilter;
 import at.or.joestr.acronisfss.api.filter.DeviceListFilter;
+import at.or.joestr.acronisfss.api.filter.TenantFilter;
 import at.or.joestr.acronisfss.api.structures.AuditLogEntry;
 import at.or.joestr.acronisfss.api.structures.Device;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,6 +65,9 @@ public class Api {
     return token;
   }
 
+  /**
+   * Authorizes the client.
+   */
   public void authorize() {
     try {
       this.token = AuthorizationEndpoint.getToken(this.authUri, "password", this.username, this.password);
@@ -84,11 +89,11 @@ public class Api {
   /**
    * Gets a list of audit log entries.
    *
-   * @param auditLogFilter The filter specify the result.
+   * @param auditLogFilter A filter to find specific audit log entries.
    *
    * @return Audit log entries.
    */
-  public List<AuditLogEntry> getAuditLog(AuditLogEntriesListFilter auditLogFilter) {
+  public List<AuditLogEntry> getAuditLogEntries(AuditLogEntriesListFilter auditLogFilter) {
     try {
       return AuditLogEndpoint.getAuditLogEntries(apiUri, this.token.getAccessToken(), auditLogFilter);
     } catch (IOException | InterruptedException | URISyntaxException ex) {
@@ -99,6 +104,12 @@ public class Api {
     return new ArrayList<>();
   }
   
+  /**
+   * Gets a list of devices.
+   * 
+   * @param deviceListFilter A filter to find specific devices.
+   * @return 
+   */
   public List<Device> getDevices(DeviceListFilter deviceListFilter) {
     try {
       return DeviceEndpoint.getDevices(apiUri, this.token.getAccessToken(), deviceListFilter);
@@ -108,5 +119,23 @@ public class Api {
     }
 
     return new ArrayList<>();
+  }
+  
+  /**
+   * Get information of a device by its UUID.
+   * 
+   * @param uuid The UUID of the device.
+   * @param tenantFilter A filter for specific tenants.
+   * @return 
+   */
+  public Device getDeviceInformation(UUID uuid, TenantFilter tenantFilter) {
+    try {
+      return DeviceEndpoint.getDeviceInformation(apiUri, this.token.getAccessToken(), uuid, tenantFilter);
+    } catch (IOException | InterruptedException | URISyntaxException ex) {
+      LOGGER.log(Level.SEVERE, "Error whilst re-authorizing client.", ex);
+      Thread.currentThread().interrupt();
+    }
+
+    return null;
   }
 }

@@ -5,11 +5,16 @@
  */
 package at.or.joestr.acronisfss.api;
 
-import at.or.joestr.acronisfss.api.filter.AuditLogFilter;
+import at.or.joestr.acronisfss.api.exceptions.ApiException;
+import at.or.joestr.acronisfss.api.filter.AuditLogEntriesListFilter;
+import at.or.joestr.acronisfss.api.filter.DeviceListFilter;
+import at.or.joestr.acronisfss.api.filter.TenantFilter;
 import at.or.joestr.acronisfss.api.structures.AuditLogEntry;
+import at.or.joestr.acronisfss.api.structures.Device;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -57,21 +62,38 @@ public class TestApi {
 	
 	@Test
 	@Order(12)
-	public void getAuditLog() {
-		ArrayList<AuditLogEntry> entries = (ArrayList) acronisApi.getAuditLog(new AuditLogFilter());
+	public void getAuditLogEntries() {
+		ArrayList<AuditLogEntry> entries = (ArrayList) acronisApi.getAuditLogEntries(new AuditLogEntriesListFilter());
 		
 		Assertions.assertNotEquals(null, entries.get(0), "is audit log not empty");
 	}
   
   @Test
   @Order(13)
-  public void getAuditLogWithFilter() {
-    ArrayList<AuditLogEntry> entries = (ArrayList) acronisApi.getAuditLog(
-      new AuditLogFilter()
+  public void getAuditLogEntriesWithFilter() {
+    ArrayList<AuditLogEntry> entries = (ArrayList) acronisApi.getAuditLogEntries(new AuditLogEntriesListFilter()
         .filterText("this string is not in the log yet")
     );
     
     Assertions.assertEquals(0, entries.size(), "is audit log empty");
+  }
+  
+  @Test
+  @Order(14)
+  public void getDevices() {
+    ArrayList<Device> entries = (ArrayList) acronisApi.getDevices(new DeviceListFilter());
+    
+    Assertions.assertEquals(0, entries.size(), "is device list empty");
+  }
+  
+  @Test
+  @Order(15)
+  public void getNonExistingDevice() {
+    Assertions.assertThrows(
+      ApiException.class,
+      () -> { acronisApi.getDeviceInformation(new UUID(0, 0), new TenantFilter()); },
+      "throws exception"
+    );
   }
 	
 	@Test

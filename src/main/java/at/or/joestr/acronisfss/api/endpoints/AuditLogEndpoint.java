@@ -5,12 +5,13 @@
  */
 package at.or.joestr.acronisfss.api.endpoints;
 
-import at.or.joestr.acronisfss.api.exceptions.GetAuditLogEntriesListException;
-import at.or.joestr.acronisfss.api.filter.AuditLogFilter;
+import at.or.joestr.acronisfss.api.exceptions.ApiException;
+import at.or.joestr.acronisfss.api.filter.AuditLogEntriesListFilter;
 import java.util.List;
 import at.or.joestr.acronisfss.api.structures.AuditLogEntry;
 import at.or.joestr.acronisfss.api.structures.ErrorResponse;
 import at.or.joestr.acronisfss.api.structures.Severity;
+import at.or.joestr.acronisfss.api.util.CustomUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -41,7 +42,7 @@ public class AuditLogEndpoint {
     throw new IllegalStateException("Utility class");
   }
 
-  public static List<AuditLogEntry> getAuditLogEntries(URI apiUri, String bearerToken, AuditLogFilter auditLogFilter) throws IOException, InterruptedException, URISyntaxException {
+  public static List<AuditLogEntry> getAuditLogEntries(URI apiUri, String bearerToken, AuditLogEntriesListFilter auditLogFilter) throws IOException, InterruptedException, URISyntaxException {
     ArrayList<AuditLogEntry> result = null;
 
     URIBuilder uri
@@ -60,13 +61,13 @@ public class AuditLogEndpoint {
       .build()
       .send(req, HttpResponse.BodyHandlers.ofString());
 
-    if (response.statusCode() == 403) {
+    if (CustomUtils.contains(response.statusCode(), 403)) {
       ErrorResponse error = new Gson().fromJson(
         JsonParser.parseString(response.body()).getAsJsonObject().get("error").getAsJsonObject(),
         ErrorResponse.class
       );
 
-      throw new GetAuditLogEntriesListException(error.toString());
+      throw new ApiException(error.toString());
     }
 
     JsonArray jsonLogEntries = JsonParser.parseString(response.body()).getAsJsonArray();
@@ -76,7 +77,7 @@ public class AuditLogEndpoint {
     for (JsonElement jsonLogEntry : jsonLogEntries) {
       JsonObject jsonLogEntryObject = jsonLogEntry.getAsJsonObject();
 
-      AuditLogEntry entry = new AuditLogEntry(
+      AuditLogEntry resultEntry = new AuditLogEntry(
         UUID.fromString(jsonLogEntryObject.get("uuid").getAsString()),
         jsonLogEntryObject.get("code").getAsInt(),
         LocalDateTime.parse(
@@ -88,24 +89,24 @@ public class AuditLogEndpoint {
       );
 
       if (jsonLogEntryObject.has("node_uuid") && !jsonLogEntryObject.get("node_uuid").isJsonNull()) {
-        entry.setNodeUuid(
+        resultEntry.setNodeUuid(
           UUID.fromString(jsonLogEntryObject.get("node_uuid").getAsString())
         );
       }
 
       if (jsonLogEntryObject.has("share_uuid") && !jsonLogEntryObject.get("share_uuid").isJsonNull()) {
-        entry.setShareUuid(
+        resultEntry.setShareUuid(
           UUID.fromString(jsonLogEntryObject.get("share_uuid").getAsString())
         );
       }
 
       if (jsonLogEntryObject.has("owner_uuid") && !jsonLogEntryObject.get("owner_uuid").isJsonNull()) {
-        entry.setOwnerUuid(
+        resultEntry.setOwnerUuid(
           UUID.fromString(jsonLogEntryObject.get("owner_uuid").getAsString())
         );
       }
 
-      result.add(entry);
+      result.add(resultEntry);
     }
 
     return result;

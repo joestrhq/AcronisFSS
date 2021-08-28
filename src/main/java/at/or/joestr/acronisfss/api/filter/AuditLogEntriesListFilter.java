@@ -18,7 +18,7 @@ import org.apache.http.message.BasicNameValuePair;
  *
  * @author joestr
  */
-public class AuditLogFilter {
+public class AuditLogEntriesListFilter {
 
   private String filterUser = null;
   private String filterShare = null;
@@ -31,56 +31,56 @@ public class AuditLogFilter {
   private Integer page = null;
   private String tenantId = null;
 
-  public AuditLogFilter() {
+  public AuditLogEntriesListFilter() {
     super();
   }
 
-  public AuditLogFilter filterUser(String user) {
+  public AuditLogEntriesListFilter filterUser(String user) {
     this.filterUser = user;
     return this;
   }
 
-  public AuditLogFilter filterShare(String share) {
+  public AuditLogEntriesListFilter filterShare(String share) {
     this.filterShare = share;
     return this;
   }
 
-  public AuditLogFilter filterNodeUuid(String nodeUuid) {
+  public AuditLogEntriesListFilter filterNodeUuid(String nodeUuid) {
     this.filterNodeUuid = nodeUuid;
     return this;
   }
 
-  public AuditLogFilter filterSeverty(Severity severty) {
+  public AuditLogEntriesListFilter filterSeverty(Severity severty) {
     this.filterSeverty = severty;
     return this;
   }
 
-  public AuditLogFilter filterText(String text) {
+  public AuditLogEntriesListFilter filterText(String text) {
     this.filterText = text;
     return this;
   }
 
-  public AuditLogFilter filterFrom(LocalDateTime from) {
+  public AuditLogEntriesListFilter filterFrom(LocalDateTime from) {
     this.filterFrom = from;
     return this;
   }
 
-  public AuditLogFilter filterTo(LocalDateTime to) {
+  public AuditLogEntriesListFilter filterTo(LocalDateTime to) {
     this.filterTo = to;
     return this;
   }
 
-  public AuditLogFilter perPage(Integer perPage) {
+  public AuditLogEntriesListFilter perPage(Integer perPage) {
     this.perPage = perPage;
     return this;
   }
 
-  public AuditLogFilter page(Integer page) {
+  public AuditLogEntriesListFilter page(Integer page) {
     this.page = page;
     return this;
   }
 
-  public AuditLogFilter tenantId(String tenantId) {
+  public AuditLogEntriesListFilter tenantId(String tenantId) {
     this.tenantId = tenantId;
     return this;
   }

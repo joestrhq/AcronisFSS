@@ -5,9 +5,10 @@
  */
 package at.or.joestr.acronisfss.api.endpoints;
 
-import at.or.joestr.acronisfss.api.exceptions.FilesProtectApiException;
+import at.or.joestr.acronisfss.api.exceptions.ApiException;
 import at.or.joestr.acronisfss.api.classes.OAuth2Token;
 import at.or.joestr.acronisfss.api.structures.ErrorResponse;
+import at.or.joestr.acronisfss.api.util.CustomUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -62,13 +63,13 @@ public class AuthorizationEndpoint {
         .build()
         .send(req, HttpResponse.BodyHandlers.ofString());
 
-    if (response.statusCode() == 401) {
+    if (CustomUtils.contains(response.statusCode(), 401)) {
       ErrorResponse error = new Gson().fromJson(
         JsonParser.parseString(response.body()).getAsJsonObject().get("error").getAsJsonObject(),
         ErrorResponse.class
       );
 
-      throw new FilesProtectApiException(error.toString());
+      throw new ApiException(error.toString());
     }
 
     JsonObject jsonResponse = JsonParser.parseString(response.body()).getAsJsonObject();
@@ -110,12 +111,12 @@ public class AuthorizationEndpoint {
         .send(req, HttpResponse.BodyHandlers.ofString());
 
     if (response.statusCode() == 401) {
-      Error error = new Gson().fromJson(
+      ErrorResponse error = new Gson().fromJson(
         JsonParser.parseString(response.body()).getAsJsonObject().get("error").getAsJsonObject(),
-        Error.class
+        ErrorResponse.class
       );
 
-      throw new FilesProtectApiException(error.toString());
+      throw new ApiException(error.toString());
     }
 
     JsonObject jsonResponse = JsonParser.parseString(response.body()).getAsJsonObject();

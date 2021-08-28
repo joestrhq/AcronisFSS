@@ -14,27 +14,15 @@ import org.apache.http.message.BasicNameValuePair;
  *
  * @author joestr
  */
-public class DeviceFilter {
-
-  private Integer perPage = null;
-  private Integer page = null;
+public class TenantFilter {
+  
   private String tenantId = null;
 
-  public DeviceFilter() {
+  public TenantFilter() {
     super();
   }
 
-  public DeviceFilter perPage(Integer perPage) {
-    this.perPage = perPage;
-    return this;
-  }
-
-  public DeviceFilter page(Integer page) {
-    this.page = page;
-    return this;
-  }
-
-  public DeviceFilter tenantId(String tenantId) {
+  public TenantFilter tenantId(String tenantId) {
     this.tenantId = tenantId;
     return this;
   }
@@ -42,13 +30,7 @@ public class DeviceFilter {
   public List<NameValuePair> build() {
 
     ArrayList<NameValuePair> result = new ArrayList<>();
-
-    if (this.perPage != null) {
-      result.add(new BasicNameValuePair("per_page", String.valueOf(this.perPage)));
-    }
-    if (this.page != null) {
-      result.add(new BasicNameValuePair("page", String.valueOf(this.page)));
-    }
+    
     if (this.tenantId != null) {
       result.add(new BasicNameValuePair("tenant_id", this.tenantId));
     }

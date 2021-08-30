@@ -11,7 +11,7 @@ import java.util.List;
 import at.or.joestr.acronisfss.api.structures.AuditLogEntry;
 import at.or.joestr.acronisfss.api.structures.ErrorResponse;
 import at.or.joestr.acronisfss.api.structures.Severity;
-import at.or.joestr.acronisfss.api.util.CustomUtils;
+import at.or.joestr.acronisfss.api.util.CustomUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -61,7 +61,7 @@ public class AuditLogEndpoint {
       .build()
       .send(req, HttpResponse.BodyHandlers.ofString());
 
-    if (CustomUtils.contains(response.statusCode(), 403)) {
+    if (CustomUtil.contains(response.statusCode(), 403)) {
       ErrorResponse error = new Gson().fromJson(
         JsonParser.parseString(response.body()).getAsJsonObject().get("error").getAsJsonObject(),
         ErrorResponse.class

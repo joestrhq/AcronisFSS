@@ -9,7 +9,7 @@ package at.or.joestr.acronisfss.api.util;
  *
  * @author joestr
  */
-public class CustomUtils {
+public class CustomUtil {
   
   /**
    * Returns true if the needle is found in the haystack.

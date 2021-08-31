@@ -13,7 +13,8 @@ import at.or.joestr.acronisfss.api.structures.ClientType;
 import at.or.joestr.acronisfss.api.structures.Device;
 import at.or.joestr.acronisfss.api.structures.ErrorResponse;
 import at.or.joestr.acronisfss.api.structures.Filesystem;
-import at.or.joestr.acronisfss.api.util.CustomUtils;
+import at.or.joestr.acronisfss.api.util.CustomUtil;
+import at.or.joestr.acronisfss.api.util.RequestUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -129,7 +130,7 @@ public class DeviceEndpoint {
       .build()
       .send(req, HttpResponse.BodyHandlers.ofString());
 
-    if (CustomUtils.contains(response.statusCode(), 403, 404)) {
+    if (CustomUtil.contains(response.statusCode(), 403, 404)) {
       ErrorResponse error = new Gson().fromJson(
         JsonParser.parseString(response.body()).getAsJsonObject().get("error").getAsJsonObject(),
         ErrorResponse.class
@@ -168,7 +169,9 @@ public class DeviceEndpoint {
   }
 
   public static void updateDevice(UUID deviceUuid, Device device) {
-
+    
+    JsonObject request = RequestUtil.makeDevicesRequest(device);
+    
     return;
   }
 

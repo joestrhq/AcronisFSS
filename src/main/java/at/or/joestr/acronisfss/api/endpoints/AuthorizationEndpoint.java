@@ -8,7 +8,7 @@ package at.or.joestr.acronisfss.api.endpoints;
 import at.or.joestr.acronisfss.api.exceptions.ApiException;
 import at.or.joestr.acronisfss.api.classes.OAuth2Token;
 import at.or.joestr.acronisfss.api.structures.ErrorResponse;
-import at.or.joestr.acronisfss.api.util.CustomUtils;
+import at.or.joestr.acronisfss.api.util.CustomUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -63,7 +63,7 @@ public class AuthorizationEndpoint {
         .build()
         .send(req, HttpResponse.BodyHandlers.ofString());
 
-    if (CustomUtils.contains(response.statusCode(), 401)) {
+    if (CustomUtil.contains(response.statusCode(), 401)) {
       ErrorResponse error = new Gson().fromJson(
         JsonParser.parseString(response.body()).getAsJsonObject().get("error").getAsJsonObject(),
         ErrorResponse.class

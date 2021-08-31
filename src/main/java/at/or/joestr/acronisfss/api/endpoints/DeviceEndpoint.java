@@ -168,9 +168,12 @@ public class DeviceEndpoint {
     return result;
   }
 
-  public static void updateDevice(UUID deviceUuid, Device device) {
+  public static void updateDevice(URI apiUri, String bearerToken, UUID deviceUuid, Device device) throws URISyntaxException {
     
     JsonObject request = RequestUtil.makeDevicesRequest(device);
+    
+    URIBuilder uri
+      = new URIBuilder(apiUri.toString() + ENDPOINT_PATH + "/" + deviceUuid.toString());
     
     return;
   }

@@ -97,7 +97,7 @@ public class Api {
     try {
       return AuditLogEndpoint.getAuditLogEntries(apiUri, this.token.getAccessToken(), auditLogFilter);
     } catch (IOException | InterruptedException | URISyntaxException ex) {
-      LOGGER.log(Level.SEVERE, "Error whilst re-authorizing client.", ex);
+      LOGGER.log(Level.SEVERE, "Error whilst getting audit log entries.", ex);
       Thread.currentThread().interrupt();
     }
 
@@ -114,7 +114,7 @@ public class Api {
     try {
       return DeviceEndpoint.getDevices(apiUri, this.token.getAccessToken(), deviceListFilter);
     } catch (IOException | InterruptedException | URISyntaxException ex) {
-      LOGGER.log(Level.SEVERE, "Error whilst re-authorizing client.", ex);
+      LOGGER.log(Level.SEVERE, "Error whilst getting devices.", ex);
       Thread.currentThread().interrupt();
     }
 
@@ -132,10 +132,39 @@ public class Api {
     try {
       return DeviceEndpoint.getDeviceInformation(apiUri, this.token.getAccessToken(), uuid, tenantFilter);
     } catch (IOException | InterruptedException | URISyntaxException ex) {
-      LOGGER.log(Level.SEVERE, "Error whilst re-authorizing client.", ex);
+      LOGGER.log(Level.SEVERE, "Error whilst getting device information.", ex);
       Thread.currentThread().interrupt();
     }
 
     return null;
+  }
+  
+  /**
+   * Update a device by its UUID.
+   * 
+   * @param uuid The UUID of the device.
+   * @param device The information of the device.
+   */
+  public void updateDevice(UUID uuid, Device device) {
+    try {
+      DeviceEndpoint.updateDevice(apiUri, this.token.getAccessToken(), uuid, device);
+    } catch (IOException | InterruptedException | URISyntaxException ex) {
+      LOGGER.log(Level.SEVERE, "Error whilst updating device.", ex);
+      Thread.currentThread().interrupt();
+    }
+  }
+  
+  /**
+   * Delete a device by its UUID.
+   * 
+   * @param uuid The UUID of the device.
+   */
+  public void deleteDevice(UUID uuid) {
+    try {
+      DeviceEndpoint.deleteDevice(apiUri, this.token.getAccessToken(), uuid);
+    } catch (IOException | InterruptedException | URISyntaxException ex) {
+      LOGGER.log(Level.SEVERE, "Error whilst deleting device.", ex);
+      Thread.currentThread().interrupt();
+    }
   }
 }

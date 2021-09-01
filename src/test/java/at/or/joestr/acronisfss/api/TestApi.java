@@ -9,10 +9,14 @@ import at.or.joestr.acronisfss.api.exceptions.ApiException;
 import at.or.joestr.acronisfss.api.filter.AuditLogEntriesListFilter;
 import at.or.joestr.acronisfss.api.filter.DeviceListFilter;
 import at.or.joestr.acronisfss.api.filter.TenantFilter;
+import at.or.joestr.acronisfss.api.structures.ActionsDevice;
 import at.or.joestr.acronisfss.api.structures.AuditLogEntry;
+import at.or.joestr.acronisfss.api.structures.ClientType;
 import at.or.joestr.acronisfss.api.structures.Device;
+import at.or.joestr.acronisfss.api.structures.Filesystem;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
@@ -92,6 +96,33 @@ public class TestApi {
     Assertions.assertThrows(
       ApiException.class,
       () -> { acronisApi.getDeviceInformation(new UUID(0, 0), new TenantFilter()); },
+      "throws exception"
+    );
+  }
+  
+  @Test
+  @Order(16)
+  public void updateNonExistingDevice() {
+    Device device =
+      new Device(
+        new UUID(0, 0),
+        "app version 1",
+        Filesystem.Type0,
+        LocalDateTime.now(),
+        "api device",
+        "java",
+        "0.1.0",
+        ClientType.Desktop,
+        new UUID(0, 0),
+        "username",
+        new ActionsDevice("/demo")
+      );
+    
+    device.setNotes("device notes");
+    
+    Assertions.assertThrows(
+      ApiException.class,
+      () -> { acronisApi.updateDevice(new UUID(0, 0), device); },
       "throws exception"
     );
   }

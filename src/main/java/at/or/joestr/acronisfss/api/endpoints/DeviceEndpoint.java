@@ -29,7 +29,6 @@ import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import org.apache.http.HttpHeaders;
@@ -168,18 +167,57 @@ public class DeviceEndpoint {
     return result;
   }
 
-  public static void updateDevice(URI apiUri, String bearerToken, UUID deviceUuid, Device device) throws URISyntaxException {
-    
+  public static void updateDevice(URI apiUri, String bearerToken, UUID deviceUuid, Device device) throws URISyntaxException, IOException, InterruptedException {
     JsonObject request = RequestUtil.makeDevicesRequest(device);
     
     URIBuilder uri
       = new URIBuilder(apiUri.toString() + ENDPOINT_PATH + "/" + deviceUuid.toString());
     
-    return;
+    HttpRequest req = HttpRequest.newBuilder()
+      .POST(HttpRequest.BodyPublishers.ofString(request.toString()))
+      .uri(uri.build())
+      .header(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken)
+      .header(HttpHeaders.ACCEPT, "application/json")
+      .build();
+    
+    HttpResponse<String> response = HttpClient
+      .newBuilder()
+      .build()
+      .send(req, HttpResponse.BodyHandlers.ofString());
+
+    if (CustomUtil.contains(response.statusCode(), 404)) {
+      ErrorResponse error = new Gson().fromJson(
+        JsonParser.parseString(response.body()).getAsJsonObject().get("error").getAsJsonObject(),
+        ErrorResponse.class
+      );
+
+      throw new ApiException(error.toString());
+    }
   }
 
-  public static void deleteDevice(UUID deviceUuid, Device device) {
+  public static void deleteDevice(URI apiUri, String bearerToken, UUID deviceUuid) throws URISyntaxException, IOException, InterruptedException {
+    URIBuilder uri
+      = new URIBuilder(apiUri.toString() + ENDPOINT_PATH + "/" + deviceUuid.toString());
+    
+    HttpRequest req = HttpRequest.newBuilder()
+      .DELETE()
+      .uri(uri.build())
+      .header(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken)
+      .header(HttpHeaders.ACCEPT, "application/json")
+      .build();
+    
+    HttpResponse<String> response = HttpClient
+      .newBuilder()
+      .build()
+      .send(req, HttpResponse.BodyHandlers.ofString());
 
-    return;
+    if (CustomUtil.contains(response.statusCode(), 404)) {
+      ErrorResponse error = new Gson().fromJson(
+        JsonParser.parseString(response.body()).getAsJsonObject().get("error").getAsJsonObject(),
+        ErrorResponse.class
+      );
+
+      throw new ApiException(error.toString());
+    }
   }
 }

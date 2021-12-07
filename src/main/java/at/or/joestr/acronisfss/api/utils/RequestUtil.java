@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package at.or.joestr.acronisfss.api.util;
+package at.or.joestr.acronisfss.api.utils;
 
 import at.or.joestr.acronisfss.api.structures.Device;
 import com.google.gson.JsonObject;

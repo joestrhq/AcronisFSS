@@ -11,7 +11,7 @@ import java.util.List;
 import at.or.joestr.acronisfss.api.structures.AuditLogEntry;
 import at.or.joestr.acronisfss.api.structures.ErrorResponse;
 import at.or.joestr.acronisfss.api.structures.Severity;
-import at.or.joestr.acronisfss.api.util.CustomUtil;
+import at.or.joestr.acronisfss.api.utils.CustomUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

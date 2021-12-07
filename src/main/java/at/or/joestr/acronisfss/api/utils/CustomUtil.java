@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package at.or.joestr.acronisfss.api.util;
+package at.or.joestr.acronisfss.api.utils;
 
 /**
  *

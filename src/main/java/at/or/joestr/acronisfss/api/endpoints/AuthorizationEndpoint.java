@@ -8,7 +8,7 @@ package at.or.joestr.acronisfss.api.endpoints;
 import at.or.joestr.acronisfss.api.exceptions.ApiException;
 import at.or.joestr.acronisfss.api.classes.OAuth2Token;
 import at.or.joestr.acronisfss.api.structures.ErrorResponse;
-import at.or.joestr.acronisfss.api.util.CustomUtil;
+import at.or.joestr.acronisfss.api.utils.CustomUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

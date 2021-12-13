@@ -1,9 +1,9 @@
 site_name: AcronisFSS
 site_description: Documentation for AcronisFSS
 site_author: Strasser, Joel;
-site_url: https://acronisfss.joestr.or.at/
+site_url: https://projects.joestr.at/acronisfss/
 
-repo_name: AcronisFSS-website
+repo_name: AcronisFSS
 repo_url: https://github.com/joestrhq/AcronisFSS
 edit_uri: http://github.com/joestrhq/AcronisFSS/edit/website/src/doc/docs
 

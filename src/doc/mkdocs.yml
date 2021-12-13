@@ -4,10 +4,10 @@ site_author: Strasser, Joel;
 site_url: https://acronisfss.joestr.or.at/
 
 repo_name: AcronisFSS-website
-repo_url: https://github.com/joestrhq/AcronisFSS-website
-edit_uri: http://github.com/joestrhq/AcronisFSS-website/edit/master/src/doc/docs
+repo_url: https://github.com/joestrhq/AcronisFSS
+edit_uri: http://github.com/joestrhq/AcronisFSS/edit/website/src/doc/docs
 
-copyright: Copyright &copy; <a href="https://www.joestr.or.at">joestrhq (Open Source)</a> and all contributors
+copyright: Copyright &copy; <a href="https://www.joestr.at">joestrhq (Open Source)</a> and all contributors
 
 nav:
   - Home: index.md

@@ -14,6 +14,7 @@ import at.or.joestr.acronisfss.api.filter.DeviceListFilter;
 import at.or.joestr.acronisfss.api.filter.TenantFilter;
 import at.or.joestr.acronisfss.api.structures.AuditLogEntry;
 import at.or.joestr.acronisfss.api.structures.Device;
+import at.or.joestr.acronisfss.api.structures.DevicesRequest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -143,11 +144,11 @@ public class Api {
    * Update a device by its UUID.
    * 
    * @param uuid The UUID of the device.
-   * @param device The information of the device.
+   * @param devicesRequest The information of the device.
    */
-  public void updateDevice(UUID uuid, Device device) {
+  public void updateDevice(UUID uuid, DevicesRequest devicesRequest) {
     try {
-      DeviceEndpoint.updateDevice(apiUri, this.token.getAccessToken(), uuid, device);
+      DeviceEndpoint.updateDevice(apiUri, this.token.getAccessToken(), uuid, devicesRequest);
     } catch (IOException | InterruptedException | URISyntaxException ex) {
       LOGGER.log(Level.SEVERE, "Error whilst updating device.", ex);
       Thread.currentThread().interrupt();

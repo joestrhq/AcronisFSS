@@ -11,6 +11,7 @@ import at.or.joestr.acronisfss.api.filter.TenantFilter;
 import at.or.joestr.acronisfss.api.structures.ActionsDevice;
 import at.or.joestr.acronisfss.api.structures.ClientType;
 import at.or.joestr.acronisfss.api.structures.Device;
+import at.or.joestr.acronisfss.api.structures.DevicesRequest;
 import at.or.joestr.acronisfss.api.structures.ErrorResponse;
 import at.or.joestr.acronisfss.api.structures.Filesystem;
 import at.or.joestr.acronisfss.api.utils.CustomUtil;
@@ -167,14 +168,12 @@ public class DeviceEndpoint {
     return result;
   }
 
-  public static void updateDevice(URI apiUri, String bearerToken, UUID deviceUuid, Device device) throws URISyntaxException, IOException, InterruptedException {
-    JsonObject request = RequestUtil.makeDevicesRequest(device);
-    
+  public static void updateDevice(URI apiUri, String bearerToken, UUID deviceUuid, DevicesRequest devicesRequest) throws URISyntaxException, IOException, InterruptedException {    
     URIBuilder uri
       = new URIBuilder(apiUri.toString() + ENDPOINT_PATH + "/" + deviceUuid.toString());
     
     HttpRequest req = HttpRequest.newBuilder()
-      .POST(HttpRequest.BodyPublishers.ofString(request.toString()))
+      .POST(HttpRequest.BodyPublishers.ofString(new Gson().toJson(devicesRequest)))
       .uri(uri.build())
       .header(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken)
       .header(HttpHeaders.ACCEPT, "application/json")

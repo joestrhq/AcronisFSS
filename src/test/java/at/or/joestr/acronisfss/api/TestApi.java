@@ -13,6 +13,8 @@ import at.or.joestr.acronisfss.api.structures.ActionsDevice;
 import at.or.joestr.acronisfss.api.structures.AuditLogEntry;
 import at.or.joestr.acronisfss.api.structures.ClientType;
 import at.or.joestr.acronisfss.api.structures.Device;
+import at.or.joestr.acronisfss.api.structures.DeviceDevicesRequest;
+import at.or.joestr.acronisfss.api.structures.DevicesRequest;
 import at.or.joestr.acronisfss.api.structures.Filesystem;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -103,26 +105,11 @@ public class TestApi {
   @Test
   @Order(16)
   public void updateNonExistingDevice() {
-    Device device =
-      new Device(
-        new UUID(0, 0),
-        "app version 1",
-        Filesystem.Type0,
-        LocalDateTime.now(),
-        "api device",
-        "java",
-        "0.1.0",
-        ClientType.Desktop,
-        new UUID(0, 0),
-        "username",
-        new ActionsDevice("/demo")
-      );
-    
-    device.setNotes("device notes");
+    DevicesRequest deviceRequest = new DevicesRequest(new DeviceDevicesRequest("note"));
     
     Assertions.assertThrows(
       ApiException.class,
-      () -> { acronisApi.updateDevice(new UUID(0, 0), device); },
+      () -> { acronisApi.updateDevice(new UUID(0, 0), deviceRequest); },
       "throws exception"
     );
   }

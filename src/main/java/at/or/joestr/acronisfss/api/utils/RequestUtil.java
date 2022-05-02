@@ -6,6 +6,8 @@
 package at.or.joestr.acronisfss.api.utils;
 
 import at.or.joestr.acronisfss.api.structures.Device;
+import at.or.joestr.acronisfss.api.structures.SyncAndShareNode;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 /**
@@ -20,6 +22,14 @@ public class RequestUtil {
     requestDevice.addProperty("notes", device.getNotes());
     
     request.add("device", requestDevice);
+    return request;
+  }
+  
+  public static JsonObject makeSyncAndShareRequest(SyncAndShareNode node) {
+    JsonObject request = new JsonObject();
+    
+    request.add("sync_and_share_nodes", new Gson().toJsonTree(node));
+    
     return request;
   }
 }

@@ -4,5 +4,6 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/e50fc6d42cf44bf736ba/maintainability)](https://codeclimate.com/github/joestrhq/AcronisFSS/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/e50fc6d42cf44bf736ba/test_coverage)](https://codeclimate.com/github/joestrhq/AcronisFSS/test_coverage)
 [![License](https://img.shields.io/static/v1?label=License&message=EUPL-1.2&color=blue)](https://github.com/joestrhq/AcronisFSS/blob/master/LICENSE)
+[![Matrix](https://img.shields.io/matrix/joestrhq.general:matrix.org?color=0dbd8b&logo=matrix)](https://matrix.to/#/#joestrhq.general:matrix.org)
 
 Access _Acronis Files Sync &amp; Share_ through their API

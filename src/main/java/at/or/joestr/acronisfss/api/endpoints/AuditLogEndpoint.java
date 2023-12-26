@@ -9,6 +9,7 @@ import at.or.joestr.acronisfss.api.exceptions.ApiException;
 import at.or.joestr.acronisfss.api.filter.AuditLogEntriesListFilter;
 import java.util.List;
 import at.or.joestr.acronisfss.api.structures.AuditLogEntry;
+import at.or.joestr.acronisfss.api.structures.Error;
 import at.or.joestr.acronisfss.api.structures.ErrorResponse;
 import at.or.joestr.acronisfss.api.structures.Severity;
 import at.or.joestr.acronisfss.api.utils.CustomUtil;
@@ -61,13 +62,15 @@ public class AuditLogEndpoint {
       .build()
       .send(req, HttpResponse.BodyHandlers.ofString());
 
-    if (CustomUtil.contains(response.statusCode(), 403)) {
-      ErrorResponse error = new Gson().fromJson(
-        JsonParser.parseString(response.body()).getAsJsonObject().get("error").getAsJsonObject(),
-        ErrorResponse.class
-      );
+    Error error = null;
 
-      throw new ApiException(error.toString());
+    if (CustomUtil.contains(response.statusCode(), 403)) {
+      ErrorResponse errorResponse = new Gson().fromJson(response.body(), ErrorResponse.class);
+      error = errorResponse.getError();
+    }
+
+    if (error != null) {
+      throw new ApiException(error.getMessage());
     }
 
     JsonArray jsonLogEntries = JsonParser.parseString(response.body()).getAsJsonArray();

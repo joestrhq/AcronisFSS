@@ -12,10 +12,10 @@ import at.or.joestr.acronisfss.api.structures.ActionsDevice;
 import at.or.joestr.acronisfss.api.structures.ClientType;
 import at.or.joestr.acronisfss.api.structures.Device;
 import at.or.joestr.acronisfss.api.structures.DevicesRequest;
+import at.or.joestr.acronisfss.api.structures.Error;
 import at.or.joestr.acronisfss.api.structures.ErrorResponse;
 import at.or.joestr.acronisfss.api.structures.Filesystem;
 import at.or.joestr.acronisfss.api.utils.CustomUtil;
-import at.or.joestr.acronisfss.api.utils.RequestUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -40,15 +40,16 @@ import org.apache.http.client.utils.URIBuilder;
  * @author joestr
  */
 public class DeviceEndpoint {
+
   public static String ENDPOINT_PATH = "/devices";
-  
+
   public DeviceEndpoint() {
     throw new IllegalStateException("Utility class");
   }
 
   public static List<Device> getDevices(URI apiUri, String bearerToken, DeviceListFilter deviceListFilter) throws URISyntaxException, IOException, InterruptedException {
     ArrayList<Device> result = null;
-    
+
     URIBuilder uri
       = new URIBuilder(apiUri.toString() + ENDPOINT_PATH)
         .addParameters(deviceListFilter.build());
@@ -65,13 +66,15 @@ public class DeviceEndpoint {
       .build()
       .send(req, HttpResponse.BodyHandlers.ofString());
 
-    if (response.statusCode() == 403) {
-      ErrorResponse error = new Gson().fromJson(
-        JsonParser.parseString(response.body()).getAsJsonObject().get("error").getAsJsonObject(),
-        ErrorResponse.class
-      );
+    Error error = null;
 
-      throw new ApiException(error.toString());
+    if (CustomUtil.contains(response.statusCode(), 403)) {
+      ErrorResponse errorResponse = new Gson().fromJson(response.body(), ErrorResponse.class);
+      error = errorResponse.getError();
+    }
+
+    if (error != null) {
+      throw new ApiException(error.getMessage());
     }
 
     JsonArray jsonDevices = JsonParser.parseString(response.body()).getAsJsonArray();
@@ -80,7 +83,7 @@ public class DeviceEndpoint {
 
     for (JsonElement jsonDevice : jsonDevices) {
       JsonObject jsonDeviceObject = jsonDevice.getAsJsonObject();
-      
+
       Device resultEntry = new Device(
         UUID.fromString(jsonDeviceObject.get("uuid").getAsString()),
         jsonDeviceObject.get("app_version").getAsString(),
@@ -130,13 +133,15 @@ public class DeviceEndpoint {
       .build()
       .send(req, HttpResponse.BodyHandlers.ofString());
 
-    if (CustomUtil.contains(response.statusCode(), 403, 404)) {
-      ErrorResponse error = new Gson().fromJson(
-        JsonParser.parseString(response.body()).getAsJsonObject().get("error").getAsJsonObject(),
-        ErrorResponse.class
-      );
+    Error error = null;
 
-      throw new ApiException(error.toString());
+    if (CustomUtil.contains(response.statusCode(), 404, 403)) {
+      ErrorResponse errorResponse = new Gson().fromJson(response.body(), ErrorResponse.class);
+      error = errorResponse.getError();
+    }
+
+    if (error != null) {
+      throw new ApiException(error.getMessage());
     }
 
     JsonObject jsonDeviceObject = JsonParser.parseString(response.body()).getAsJsonObject();
@@ -164,59 +169,63 @@ public class DeviceEndpoint {
     if (jsonDeviceObject.has("notes") && !jsonDeviceObject.get("notes").isJsonNull()) {
       result.setNotes(jsonDeviceObject.get("notes").getAsString());
     }
-    
+
     return result;
   }
 
-  public static void updateDevice(URI apiUri, String bearerToken, UUID deviceUuid, DevicesRequest devicesRequest) throws URISyntaxException, IOException, InterruptedException {    
+  public static void updateDevice(URI apiUri, String bearerToken, UUID deviceUuid, DevicesRequest devicesRequest) throws URISyntaxException, IOException, InterruptedException {
     URIBuilder uri
       = new URIBuilder(apiUri.toString() + ENDPOINT_PATH + "/" + deviceUuid.toString());
-    
+
     HttpRequest req = HttpRequest.newBuilder()
       .POST(HttpRequest.BodyPublishers.ofString(new Gson().toJson(devicesRequest)))
       .uri(uri.build())
       .header(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken)
       .header(HttpHeaders.ACCEPT, "application/json")
       .build();
-    
+
     HttpResponse<String> response = HttpClient
       .newBuilder()
       .build()
       .send(req, HttpResponse.BodyHandlers.ofString());
 
-    if (CustomUtil.contains(response.statusCode(), 404)) {
-      ErrorResponse error = new Gson().fromJson(
-        JsonParser.parseString(response.body()).getAsJsonObject().get("error").getAsJsonObject(),
-        ErrorResponse.class
-      );
+    Error error = null;
 
-      throw new ApiException(error.toString());
+    if (CustomUtil.contains(response.statusCode(), 404)) {
+      ErrorResponse errorResponse = new Gson().fromJson(response.body(), ErrorResponse.class);
+      error = errorResponse.getError();
+    }
+
+    if (error != null) {
+      throw new ApiException(error.getMessage());
     }
   }
 
   public static void deleteDevice(URI apiUri, String bearerToken, UUID deviceUuid) throws URISyntaxException, IOException, InterruptedException {
     URIBuilder uri
       = new URIBuilder(apiUri.toString() + ENDPOINT_PATH + "/" + deviceUuid.toString());
-    
+
     HttpRequest req = HttpRequest.newBuilder()
       .DELETE()
       .uri(uri.build())
       .header(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken)
       .header(HttpHeaders.ACCEPT, "application/json")
       .build();
-    
+
     HttpResponse<String> response = HttpClient
       .newBuilder()
       .build()
       .send(req, HttpResponse.BodyHandlers.ofString());
 
-    if (CustomUtil.contains(response.statusCode(), 404)) {
-      ErrorResponse error = new Gson().fromJson(
-        JsonParser.parseString(response.body()).getAsJsonObject().get("error").getAsJsonObject(),
-        ErrorResponse.class
-      );
+    Error error = null;
 
-      throw new ApiException(error.toString());
+    if (CustomUtil.contains(response.statusCode(), 404, 403)) {
+      ErrorResponse errorResponse = new Gson().fromJson(response.body(), ErrorResponse.class);
+      error = errorResponse.getError();
+    }
+
+    if (error != null) {
+      throw new ApiException(error.getMessage());
     }
   }
 }

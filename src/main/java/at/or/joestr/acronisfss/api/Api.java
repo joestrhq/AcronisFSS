@@ -9,12 +9,15 @@ import at.or.joestr.acronisfss.api.classes.OAuth2Token;
 import at.or.joestr.acronisfss.api.endpoints.AuditLogEndpoint;
 import at.or.joestr.acronisfss.api.endpoints.AuthorizationEndpoint;
 import at.or.joestr.acronisfss.api.endpoints.DeviceEndpoint;
+import at.or.joestr.acronisfss.api.endpoints.SyncAndShareNodesEndpoint;
 import at.or.joestr.acronisfss.api.filter.AuditLogEntriesListFilter;
 import at.or.joestr.acronisfss.api.filter.DeviceListFilter;
 import at.or.joestr.acronisfss.api.filter.TenantFilter;
 import at.or.joestr.acronisfss.api.structures.AuditLogEntry;
 import at.or.joestr.acronisfss.api.structures.Device;
 import at.or.joestr.acronisfss.api.structures.DevicesRequest;
+import at.or.joestr.acronisfss.api.structures.FolderNode;
+import at.or.joestr.acronisfss.api.structures.SyncAndShareNode;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -104,12 +107,12 @@ public class Api {
 
     return new ArrayList<>();
   }
-  
+
   /**
    * Gets a list of devices.
-   * 
+   *
    * @param deviceListFilter A filter to find specific devices.
-   * @return 
+   * @return
    */
   public List<Device> getDevices(DeviceListFilter deviceListFilter) {
     try {
@@ -121,13 +124,13 @@ public class Api {
 
     return new ArrayList<>();
   }
-  
+
   /**
    * Get information of a device by its UUID.
-   * 
+   *
    * @param uuid The UUID of the device.
    * @param tenantFilter A filter for specific tenants.
-   * @return 
+   * @return
    */
   public Device getDeviceInformation(UUID uuid, TenantFilter tenantFilter) {
     try {
@@ -139,10 +142,10 @@ public class Api {
 
     return null;
   }
-  
+
   /**
    * Update a device by its UUID.
-   * 
+   *
    * @param uuid The UUID of the device.
    * @param devicesRequest The information of the device.
    */
@@ -154,10 +157,10 @@ public class Api {
       Thread.currentThread().interrupt();
     }
   }
-  
+
   /**
    * Delete a device by its UUID.
-   * 
+   *
    * @param uuid The UUID of the device.
    */
   public void deleteDevice(UUID uuid) {
@@ -167,5 +170,59 @@ public class Api {
       LOGGER.log(Level.SEVERE, "Error whilst deleting device.", ex);
       Thread.currentThread().interrupt();
     }
+  }
+
+  /**
+   * Creates a folder identified by its name in the given parent folder
+   * identified by its UUID.
+   *
+   * @param parentUuid The UUID of the parent node. Can be null.
+   * @param name The name of the folder.
+   * @return Created folder.
+   */
+  public FolderNode createFolder(UUID parentUuid, String name) {
+    try {
+      return SyncAndShareNodesEndpoint.createFolder(apiUri, this.token.getAccessToken(), new SyncAndShareNode(parentUuid, name, null));
+    } catch (IOException | InterruptedException | URISyntaxException ex) {
+      LOGGER.log(Level.SEVERE, "Error whilst creating folder.", ex);
+      Thread.currentThread().interrupt();
+    }
+
+    return null;
+  }
+
+  /**
+   * Creates a folder identified by its path.
+   *
+   * @param path The path of the folder.
+   * @return Created folder.
+   */
+  public FolderNode createFolderByPath(String path) {
+    try {
+      SyncAndShareNodesEndpoint.createFolder(apiUri, this.token.getAccessToken(), new SyncAndShareNode(null, null, path));
+    } catch (IOException | InterruptedException | URISyntaxException ex) {
+      LOGGER.log(Level.SEVERE, "Error whilst creating folder by path.", ex);
+      Thread.currentThread().interrupt();
+    }
+
+    return null;
+  }
+  
+  /**
+   * Deletes a folder or file identified by its UUID.
+   *
+   * @param uuid The UUID of the folder or file.
+   * @return Created folder.
+   */
+  public boolean deleteFolderOrFile(UUID uuid) {
+    try {
+      SyncAndShareNodesEndpoint.deleteNode(apiUri, this.token.getAccessToken(), uuid);
+    } catch (IOException | InterruptedException | URISyntaxException ex) {
+      LOGGER.log(Level.SEVERE, "Error whilst creating folder by path.", ex);
+      Thread.currentThread().interrupt();
+      return false;
+    }
+
+    return true;
   }
 }

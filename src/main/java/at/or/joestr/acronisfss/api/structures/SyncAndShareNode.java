@@ -4,6 +4,8 @@
  */
 package at.or.joestr.acronisfss.api.structures;
 
+import at.or.joestr.acronisfss.api.typeadapters.NodeUuidTypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import java.util.UUID;
 
@@ -12,6 +14,7 @@ import java.util.UUID;
  * @author joestr
  */
 public class SyncAndShareNode {
+  @JsonAdapter(value = NodeUuidTypeAdapter.class, nullSafe = false)
   @SerializedName("parent_uuid")
   private UUID parentUuid;
   private String name;

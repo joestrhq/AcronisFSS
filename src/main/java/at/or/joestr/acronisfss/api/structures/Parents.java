@@ -5,12 +5,17 @@
  */
 package at.or.joestr.acronisfss.api.structures;
 
+import at.or.joestr.acronisfss.api.typeadapters.NodeUuidTypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import java.util.UUID;
+
 /**
  *
  * @author Joel
  */
 public class Parents {
-  private NodeName name;
-  private NodeUuid uuid;
+  private String name;
+  @JsonAdapter(NodeUuidTypeAdapter.class)
+  private UUID uuid;
   private boolean root;
 }

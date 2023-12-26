@@ -5,9 +5,13 @@
  */
 package at.or.joestr.acronisfss.api.structures;
 
+import at.or.joestr.acronisfss.api.typeadapters.NodeUuidTypeAdapter;
+import at.or.joestr.acronisfss.api.typeadapters.OffsetDateTimeTypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -15,22 +19,25 @@ import java.util.List;
  */
 public abstract class Node {
 
+  @JsonAdapter(value = NodeUuidTypeAdapter.class, nullSafe = false)
   @SerializedName("uuid")
-  private NodeUuid nodeUuid;
+  private UUID uuid;
   @SerializedName("name")
-  private NodeName nodeName;
+  private String name;
   @SerializedName("is_directory")
   private boolean directory;
   private long size;
+  @JsonAdapter(OffsetDateTimeTypeAdapter.class)
   @SerializedName("file_modification_date")
-  private LocalDateTime fileModificationDate;
+  private OffsetDateTime fileModificationDate;
   @SerializedName("is_deleted")
   private boolean deleted;
   private Synced synced;
   @SerializedName("preview_type")
   private PreviewType previewType;
+  @JsonAdapter(OffsetDateTimeTypeAdapter.class)
   @SerializedName("expiration_date")
-  private LocalDateTime expirationDate;
+  private OffsetDateTime expirationDate;
   @SerializedName("read_only")
   private boolean readOnly;
   @SerializedName("has_active_links")
@@ -44,8 +51,9 @@ public abstract class Node {
   private String path;
   private List<Parents> parents;
   private String checksum;
+  @JsonAdapter(value = NodeUuidTypeAdapter.class, nullSafe = false)
   @SerializedName("parent_uuid")
-  private NodeUuid parentUuid;
+  private UUID parentUuid;
   @SerializedName("has_writable_children")
   private boolean writableChildren;
   //private ? officeOnlinePermissions;
@@ -56,20 +64,20 @@ public abstract class Node {
   public Node() {
   }
 
-  public NodeUuid getNodeUuid() {
-    return nodeUuid;
+  public UUID getUuid() {
+    return uuid;
   }
 
-  public void setNodeUuid(NodeUuid nodeUuid) {
-    this.nodeUuid = nodeUuid;
+  public void setNodeUuid(UUID uuid) {
+    this.uuid = uuid;
   }
 
-  public NodeName getNodeName() {
-    return nodeName;
+  public String getName() {
+    return name;
   }
 
-  public void setNodeName(NodeName nodeName) {
-    this.nodeName = nodeName;
+  public void setNodeName(String name) {
+    this.name = name;
   }
 
   public boolean isDirectory() {
@@ -88,11 +96,11 @@ public abstract class Node {
     this.size = size;
   }
 
-  public LocalDateTime getFileModificationDate() {
+  public OffsetDateTime getFileModificationDate() {
     return fileModificationDate;
   }
 
-  public void setFileModificationDate(LocalDateTime fileModificationDate) {
+  public void setFileModificationDate(OffsetDateTime fileModificationDate) {
     this.fileModificationDate = fileModificationDate;
   }
 
@@ -120,11 +128,11 @@ public abstract class Node {
     this.previewType = previewType;
   }
 
-  public LocalDateTime getExpirationDate() {
+  public OffsetDateTime getExpirationDate() {
     return expirationDate;
   }
 
-  public void setExpirationDate(LocalDateTime expirationDate) {
+  public void setExpirationDate(OffsetDateTime expirationDate) {
     this.expirationDate = expirationDate;
   }
 
@@ -192,11 +200,11 @@ public abstract class Node {
     this.checksum = checksum;
   }
 
-  public NodeUuid getParentUuid() {
+  public UUID getParentUuid() {
     return parentUuid;
   }
 
-  public void setParentUuid(NodeUuid parentUuid) {
+  public void setParentUuid(UUID parentUuid) {
     this.parentUuid = parentUuid;
   }
 

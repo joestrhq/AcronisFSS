@@ -4,6 +4,7 @@
  */
 package at.or.joestr.acronisfss.api.structures;
 
+import at.or.joestr.acronisfss.api.typeadapters.NodeUuidTypeAdapter;
 import com.google.gson.annotations.SerializedName;
 
 /**

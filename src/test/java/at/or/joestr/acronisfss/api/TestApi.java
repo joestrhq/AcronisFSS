@@ -14,6 +14,7 @@ import at.or.joestr.acronisfss.api.structures.Device;
 import at.or.joestr.acronisfss.api.structures.DeviceDevicesRequest;
 import at.or.joestr.acronisfss.api.structures.DevicesRequest;
 import at.or.joestr.acronisfss.api.structures.FolderNode;
+import at.or.joestr.acronisfss.api.structures.Node;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -120,6 +121,17 @@ public class TestApi {
   public void crateFolderInRootAndDelete() {
     FolderNode folderNode = acronisApi.createFolder(null, "folder1");
     Assertions.assertEquals("folder1", folderNode.getName(), "folder created with correct name");
+    boolean deleted = acronisApi.deleteFolderOrFile(folderNode.getUuid());
+    Assertions.assertEquals(true, deleted, "folder should be deleted");
+  }
+  
+  @Test
+  @Order(18)
+  public void crateFolderInRootAndGetInfoAndDelete() {
+    FolderNode folderNode = acronisApi.createFolder(null, "folder2");
+    Assertions.assertEquals("folder2", folderNode.getName(), "folder created with correct name");
+    Node node = acronisApi.getFolderOrFile(folderNode.getUuid());
+    Assertions.assertEquals("folder2", node.getName(), "folder has correct name");
     boolean deleted = acronisApi.deleteFolderOrFile(folderNode.getUuid());
     Assertions.assertEquals(true, deleted, "folder should be deleted");
   }

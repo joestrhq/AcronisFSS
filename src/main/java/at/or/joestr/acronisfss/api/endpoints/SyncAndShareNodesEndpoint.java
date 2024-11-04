@@ -5,6 +5,7 @@ import at.or.joestr.acronisfss.api.structures.ConflictErrorResponse;
 import at.or.joestr.acronisfss.api.structures.Error;
 import at.or.joestr.acronisfss.api.structures.ErrorResponse;
 import at.or.joestr.acronisfss.api.structures.FolderNode;
+import at.or.joestr.acronisfss.api.structures.Node;
 import at.or.joestr.acronisfss.api.structures.SyncAndShareNode;
 import at.or.joestr.acronisfss.api.structures.SyncAndShareNodesRequest;
 import at.or.joestr.acronisfss.api.utils.CustomUtil;
@@ -68,6 +69,38 @@ public class SyncAndShareNodesEndpoint {
 
     result = new Gson().fromJson(response.body(), FolderNode.class);
 
+    return result;
+  }
+  
+  public static Node getNode(URI apiUri, String bearerToken, UUID uuid) throws URISyntaxException, IOException, InterruptedException {
+      URIBuilder uri
+      = new URIBuilder(apiUri.toString() + ENDPOINT_PATH + "/" + uuid);
+    
+    HttpRequest req = HttpRequest.newBuilder()
+      .GET()
+      .uri(uri.build())
+      .header(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken)
+      .header(HttpHeaders.ACCEPT, "application/json")
+      .build();
+    
+    HttpResponse<String> response = HttpClient
+      .newBuilder()
+      .build()
+      .send(req, HttpResponse.BodyHandlers.ofString());
+    
+    Error error = null;
+
+    if (CustomUtil.contains(response.statusCode(), 403)) {
+      ErrorResponse errorResponse = new Gson().fromJson(response.body(), ErrorResponse.class);
+      error = errorResponse.getError();
+    }
+
+    if (error != null) {
+      throw new ApiException(error.getMessage());
+    }
+
+    Node result = new Gson().fromJson(response.body(), Node.class);
+    
     return result;
   }
   

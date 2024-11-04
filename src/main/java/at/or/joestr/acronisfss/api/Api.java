@@ -17,6 +17,7 @@ import at.or.joestr.acronisfss.api.structures.AuditLogEntry;
 import at.or.joestr.acronisfss.api.structures.Device;
 import at.or.joestr.acronisfss.api.structures.DevicesRequest;
 import at.or.joestr.acronisfss.api.structures.FolderNode;
+import at.or.joestr.acronisfss.api.structures.Node;
 import at.or.joestr.acronisfss.api.structures.SyncAndShareNode;
 import java.io.IOException;
 import java.net.URI;
@@ -202,6 +203,23 @@ public class Api {
       SyncAndShareNodesEndpoint.createFolder(apiUri, this.token.getAccessToken(), new SyncAndShareNode(null, null, path));
     } catch (IOException | InterruptedException | URISyntaxException ex) {
       LOGGER.log(Level.SEVERE, "Error whilst creating folder by path.", ex);
+      Thread.currentThread().interrupt();
+    }
+
+    return null;
+  }
+  
+  /**
+   * Get information about a folder or file identified by its UUID.
+   *
+   * @param uuid The UUID of the folder or file.
+   * @return The folder or file node.
+   */
+  public Node getFolderOrFile(UUID uuid) {
+    try {
+      return SyncAndShareNodesEndpoint.getNode(apiUri, this.token.getAccessToken(), uuid);
+    } catch (IOException | InterruptedException | URISyntaxException ex) {
+      LOGGER.log(Level.SEVERE, "Error whilst getting node info.", ex);
       Thread.currentThread().interrupt();
     }
 

@@ -15,6 +15,7 @@ import at.or.joestr.acronisfss.api.structures.DeviceDevicesRequest;
 import at.or.joestr.acronisfss.api.structures.DevicesRequest;
 import at.or.joestr.acronisfss.api.structures.FolderNode;
 import at.or.joestr.acronisfss.api.structures.Node;
+import at.or.joestr.acronisfss.api.structures.SyncAndShareNode;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -121,6 +122,7 @@ public class TestApi {
   public void crateFolderInRootAndDelete() {
     FolderNode folderNode = acronisApi.createFolder(null, "folder1");
     Assertions.assertEquals("folder1", folderNode.getName(), "folder created with correct name");
+    
     boolean deleted = acronisApi.deleteFolderOrFile(folderNode.getUuid());
     Assertions.assertEquals(true, deleted, "folder should be deleted");
   }
@@ -130,8 +132,27 @@ public class TestApi {
   public void crateFolderInRootAndGetInfoAndDelete() {
     FolderNode folderNode = acronisApi.createFolder(null, "folder2");
     Assertions.assertEquals("folder2", folderNode.getName(), "folder created with correct name");
+    
     Node node = acronisApi.getFolderOrFile(folderNode.getUuid());
     Assertions.assertEquals("folder2", node.getName(), "folder has correct name");
+    
+    boolean deleted = acronisApi.deleteFolderOrFile(folderNode.getUuid());
+    Assertions.assertEquals(true, deleted, "folder should be deleted");
+  }
+  
+  @Test
+  @Order(19)
+  public void crateFolderInRootAndUpdateNameAndGetInfoAndDelete() {
+    FolderNode folderNode = acronisApi.createFolder(null, "folder3");
+    Assertions.assertEquals("folder3", folderNode.getName(), "folder created with correct name");
+    
+    var nodeName = new SyncAndShareNode();
+    nodeName.setName("folder 3.1");
+    
+    acronisApi.updateFolderOrFile(folderNode.getUuid(), nodeName);
+    Node node = acronisApi.getFolderOrFile(folderNode.getUuid());
+    Assertions.assertEquals("folder 3.1", node.getName(), "folder has correct name");
+    
     boolean deleted = acronisApi.deleteFolderOrFile(folderNode.getUuid());
     Assertions.assertEquals(true, deleted, "folder should be deleted");
   }

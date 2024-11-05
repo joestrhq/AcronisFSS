@@ -227,10 +227,28 @@ public class Api {
   }
   
   /**
+   * Update a folder or file identified by its UUID.
+   * 
+   * @param uuid The UUID of the folder or file.
+   * @param node The updated properties of the node.
+   * @return If the action was successful or not.
+   */
+  public boolean updateFolderOrFile(UUID uuid, SyncAndShareNode node) {
+    try {
+      return SyncAndShareNodesEndpoint.updateNode(apiUri, this.token.getAccessToken(), uuid, node);
+    } catch (IOException | InterruptedException | URISyntaxException ex) {
+      LOGGER.log(Level.SEVERE, "Error whilst updating node.", ex);
+      Thread.currentThread().interrupt();
+    }
+
+    return true;
+  }
+  
+  /**
    * Deletes a folder or file identified by its UUID.
    *
    * @param uuid The UUID of the folder or file.
-   * @return Created folder.
+   * @return If the action was successful or not.
    */
   public boolean deleteFolderOrFile(UUID uuid) {
     try {

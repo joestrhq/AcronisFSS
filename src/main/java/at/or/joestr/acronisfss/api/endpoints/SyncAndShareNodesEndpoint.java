@@ -104,6 +104,45 @@ public class SyncAndShareNodesEndpoint {
     return result;
   }
   
+  public static boolean updateNode(URI apiUri, String bearerToken, UUID uuid, SyncAndShareNode node) throws URISyntaxException, IOException, InterruptedException {
+    boolean result = false;
+    
+    URIBuilder uri
+    = new URIBuilder(apiUri.toString() + ENDPOINT_PATH + "/" + uuid);
+
+    SyncAndShareNodesRequest request = new SyncAndShareNodesRequest(node);
+
+    HttpRequest req = HttpRequest.newBuilder()
+    .PUT(HttpRequest.BodyPublishers.ofString(new Gson().toJson(request)))
+    .uri(uri.build())
+    .header(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken)
+    .header(HttpHeaders.ACCEPT, "application/json")
+    .build();
+
+    Error error = null;
+    
+    HttpResponse<String> response = HttpClient
+      .newBuilder()
+      .build()
+      .send(req, HttpResponse.BodyHandlers.ofString());
+
+    if (response.statusCode() == 409) {
+      ConflictErrorResponse errorResponse = new Gson().fromJson(response.body(), ConflictErrorResponse.class);
+      error = errorResponse.getError();
+    } else if (CustomUtil.contains(response.statusCode(), 403)) {
+      ErrorResponse errorResponse = new Gson().fromJson(response.body(), ErrorResponse.class);
+      error = errorResponse.getError();
+    }
+
+    if (error != null) {
+      throw new ApiException(error.getMessage());
+    }
+
+    result = true;
+
+    return result;
+  }
+  
   public static boolean deleteNode(URI apiUri, String bearerToken, UUID uuid) throws URISyntaxException, IOException, InterruptedException {
     URIBuilder uri
       = new URIBuilder(apiUri.toString() + ENDPOINT_PATH + "/" + uuid);
